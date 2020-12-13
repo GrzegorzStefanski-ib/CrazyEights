@@ -1,11 +1,11 @@
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class test {
 
     @Test
     public void test1() {
-        Assert.assertEquals(1, 1);
+        Assertions.assertEquals(1, 1);
     }
 }
