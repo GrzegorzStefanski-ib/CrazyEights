@@ -1,5 +1,6 @@
 
-[![Build Status][build-sheild]][build-url]
+[![Build Status][build-shield]][build-url]
+[![Coverage Status][cover-shield]][cover-url]
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -112,8 +113,10 @@ Project Link: [https://github.com/GrzegorzStefanski-ib/CrazyEights](https://gith
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[build-sheild]: https://travis-ci.com/GrzegorzStefanski-ib/CrazyEights.svg?branch=master
+[build-shield]: https://travis-ci.com/GrzegorzStefanski-ib/CrazyEights.svg?branch=master
 [build-url]: https://travis-ci.com/GrzegorzStefanski-ib/CrazyEights
+[cover-shield]: https://coveralls.io/repos/github/GrzegorzStefanski-ib/CrazyEights/badge.svg?branch=master
+[cover-url]: https://coveralls.io/github/GrzegorzStefanski-ib/CrazyEights?branch=master
 [contributors-shield]: https://img.shields.io/github/contributors/GrzegorzStefanski-ib/CrazyEights.svg
 [contributors-url]: https://github.com/GrzegorzStefanski-ib/CrazyEights/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/GrzegorzStefanski-ib/CrazyEights.svg
