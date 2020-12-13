@@ -8,3 +8,6 @@ jdk: oraclejdk15
 script:
   - chmod +x ./gradlew
   - sudo ./gradlew build --scan -s
+
+after_success:
+  - ./gradlew cobertura coveralls

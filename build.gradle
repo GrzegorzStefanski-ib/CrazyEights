@@ -2,7 +2,12 @@ plugins {
     id 'java'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
+
+    id 'net.saliman.cobertura' version '2.3.1'
+    id 'com.github.kt3k.coveralls' version '2.10.2'
 }
+
+cobertura.coverageFormats = ['html', 'xml'] // coveralls plugin depends on xml format report
 
 java {
     toolchain {
