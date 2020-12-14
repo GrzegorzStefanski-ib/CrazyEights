@@ -2,12 +2,18 @@ language: java
 install: skip
 
 os: linux
-dist: trusty
-jdk: oraclejdk15
+dist: xenial
+jdk: openjdk12
+env:
+    - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=awt"
+
 
 script:
   - chmod +x ./gradlew
   - sudo ./gradlew build --scan -s
+
+before_script:
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then export DISPLAY=:99.0 && /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16; fi
 
 after_success:
   - ./gradlew jacocoTestReport coveralls
