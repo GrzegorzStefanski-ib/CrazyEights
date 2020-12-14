@@ -6,10 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
 import java.io.IOException;
 
 public class CrazyEights extends Application {
 
+    FXMLLoader loader;
+    Parent root;
+    Scene scene;
+    CrazyEightsController controller;
 
     public static void main(String[] args) {
         launch(args);
@@ -18,15 +23,16 @@ public class CrazyEights extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/crazyEights.fxml"));
-        Parent root = loader.load();
+        loader = new FXMLLoader(getClass().getResource("/fxml/crazyEights.fxml"));
+        root = loader.load();
 
 
-        Scene scene = new Scene(root,300,400);
+        scene = new Scene(root,300,400);
+        controller = loader.getController();
 
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-
     }
+
 }
