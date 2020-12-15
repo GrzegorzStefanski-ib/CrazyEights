@@ -1,8 +1,9 @@
+//Copyright (C) 2020, Grzegorz Stefański
 package edu.ib;
 
+import java.io.IOException;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
@@ -12,39 +13,35 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-
-import java.io.IOException;
-
-
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CrazyEightsTest {
 
     @Test
     @Order(1)
     public void testIfRunnable() throws InterruptedException {
-        Thread thread = new Thread(new Runnable() {
+        Thread thread = new Thread(
+            new Runnable() {
 
-            @Override
-            public void run() {
-                new JFXPanel();
+                @Override
+                public void run() {
+                    new JFXPanel();
 
-                Platform.runLater(new Runnable() {
+                    Platform.runLater(
+                        new Runnable() {
 
-                    @Override
-                    public void run() {
-
-                        try {
-                            new CrazyEights().start(new Stage());
+                            @Override
+                            public void run() {
+                                try {
+                                    new CrazyEights().start(new Stage());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
-
-                        catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
+                    );
+                }
             }
-        });
+        );
 
         thread.start();
         Thread.sleep(2000);
@@ -64,23 +61,18 @@ public class CrazyEightsTest {
         try {
             c.initialize();
             Assert.fail();
-        }
-        catch (AssertionError ae) {
-
-        }
+        } catch (AssertionError ae) {}
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/crazyEights.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/fxml/crazyEights.fxml")
+            );
             Parent root = loader.load();
             CrazyEightsController controller = loader.getController();
 
             controller.initialize();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Assert.fail();
         }
-
     }
-
 }
-

@@ -5,7 +5,11 @@ plugins {
 
     id 'jacoco'
     id 'com.github.kt3k.coveralls' version '2.8.4'
+
+    id "com.diffplug.spotless" version "5.8.2"
 }
+
+
 
 repositories {
     jcenter()
@@ -43,6 +47,21 @@ if (hasProperty('buildScan')) {
         termsOfServiceUrl = 'https://gradle.com/terms-of-service'
         termsOfServiceAgree = 'yes'
     }
+}
+
+spotless {
+    java {
+        importOrder()
+        removeUnusedImports()
+        prettier(['prettier': '2.0.5', 'prettier-plugin-java': '0.8.0']).config(['parser': 'java', 'tabWidth': 4])
+
+        licenseHeader '//Copyright (C) $YEAR, Grzegorz Stefański'
+    }
+}
+
+afterEvaluate {
+    tasks.getByName('spotlessCheck').dependsOn(tasks.getByName('spotlessApply'))
+    tasks.getByName('run').dependsOn(tasks.getByName('spotlessCheck'))
 }
 
 group 'org.example'

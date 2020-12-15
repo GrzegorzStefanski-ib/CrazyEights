@@ -1,16 +1,14 @@
+//Copyright (C) 2020, Grzegorz Stefański
 package edu.ib;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
-import java.io.IOException;
-
 public class CrazyEights extends Application {
-
     FXMLLoader loader;
     Parent root;
     Scene scene;
@@ -22,17 +20,18 @@ public class CrazyEights extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-
-        loader = new FXMLLoader(getClass().getResource("/fxml/crazyEights.fxml"));
+        loader =
+            new FXMLLoader(getClass().getResource("/fxml/crazyEights.fxml"));
         root = loader.load();
 
-
-        scene = new Scene(root,300,400);
+        scene = new Scene(root, 300, 400);
         controller = loader.getController();
 
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-    }
 
+        int a, b, c, d, e, f;
+        a = b = c = d = e = f = 1;
+    }
 }
