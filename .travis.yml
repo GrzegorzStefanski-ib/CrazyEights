@@ -16,4 +16,5 @@ before_script:
 
 after_success:
   - chmod +x ./gradlew
-  - sudo ./gradlew jacocoTestReport coveralls
+  - sudo ./gradlew jacocoTestReport
+  - sudo bash <(curl -s https://codecov.io/bash)
