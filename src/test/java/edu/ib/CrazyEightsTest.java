@@ -16,63 +16,61 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CrazyEightsTest {
 
-    @Test
-    @Order(1)
-    public void testIfRunnable() throws InterruptedException {
-        Thread thread = new Thread(
+  @Test
+  @Order(1)
+  public void testIfRunnable() throws InterruptedException {
+    Thread thread =
+        new Thread(
             new Runnable() {
 
-                @Override
-                public void run() {
-                    new JFXPanel();
+              @Override
+              public void run() {
+                new JFXPanel();
 
-                    Platform.runLater(
-                        new Runnable() {
+                Platform.runLater(
+                    new Runnable() {
 
-                            @Override
-                            public void run() {
-                                try {
-                                    new CrazyEights().start(new Stage());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+                      @Override
+                      public void run() {
+                        try {
+                          new CrazyEights().start(new Stage());
+                        } catch (IOException e) {
+                          e.printStackTrace();
                         }
-                    );
-                }
-            }
-        );
+                      }
+                    });
+              }
+            });
 
-        thread.start();
-        Thread.sleep(2000);
+    thread.start();
+    Thread.sleep(2000);
+  }
+
+  @Test
+  @Order(2)
+  public void testInput() {
+    uiTest uit = new uiTest();
+    uit.testInput();
+  }
+
+  @Test
+  @Order(3)
+  public void testController() {
+    CrazyEightsController c = new CrazyEightsController();
+    try {
+      c.initialize();
+      Assert.fail();
+    } catch (AssertionError ae) {
     }
 
-    @Test
-    @Order(2)
-    public void testInput() {
-        uiTest uit = new uiTest();
-        uit.testInput();
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/crazyEights.fxml"));
+      Parent root = loader.load();
+      CrazyEightsController controller = loader.getController();
+
+      controller.initialize();
+    } catch (Exception e) {
+      Assert.fail();
     }
-
-    @Test
-    @Order(3)
-    public void testController() {
-        CrazyEightsController c = new CrazyEightsController();
-        try {
-            c.initialize();
-            Assert.fail();
-        } catch (AssertionError ae) {}
-
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/fxml/crazyEights.fxml")
-            );
-            Parent root = loader.load();
-            CrazyEightsController controller = loader.getController();
-
-            controller.initialize();
-        } catch (Exception e) {
-            Assert.fail();
-        }
-    }
+  }
 }

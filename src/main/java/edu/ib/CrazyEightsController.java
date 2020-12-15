@@ -7,18 +7,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 public class CrazyEightsController {
-    @FXML
-    private ResourceBundle resources;
+  @FXML private ResourceBundle resources;
 
-    @FXML
-    private URL location;
+  @FXML private URL location;
 
-    @FXML
-    private TextField input;
+  @FXML private TextField input;
 
-    @FXML
-    void initialize() {
-        assert input !=
-        null : "fx:id=\"input\" was not injected: check your FXML file 'crazyEights.fxml'.";
-    }
+  @FXML
+  void initialize() {
+    assert input != null
+        : "fx:id=\"input\" was not injected: check your FXML file 'crazyEights.fxml'.";
+  }
 }
