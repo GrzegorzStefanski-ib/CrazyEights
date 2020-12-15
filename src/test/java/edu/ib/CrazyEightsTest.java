@@ -43,7 +43,7 @@ public class CrazyEightsTest {
             });
 
     thread.start();
-    Thread.sleep(2000);
+    Thread.sleep(3000);
   }
 
   @Test
