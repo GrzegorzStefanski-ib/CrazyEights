@@ -6,12 +6,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ib.CrazyEightsController">
    <center>
       <VBox fx:id="centerVbox" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox id="botField" fx:id="botVbox" prefHeight="300.0" prefWidth="200.0">
+            <HBox fx:id="botHbox" prefHeight="300.0" prefWidth="200.0">
                <children>
                   <Button fx:id="botCard1Button" mnemonicParsing="false" prefHeight="110.0" prefWidth="100.0" text="c1" />
                   <Button fx:id="botCard2Button" mnemonicParsing="false" prefHeight="110.0" prefWidth="100.0" text="c2" />
@@ -23,13 +22,13 @@
                   <Button fx:id="botCard8Button" mnemonicParsing="false" prefHeight="110.0" prefWidth="100.0" text="c8" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="300.0" prefWidth="200.0">
+            <HBox fx:id="centerHbox" alignment="CENTER" prefHeight="300.0" prefWidth="200.0">
                <children>
                   <Button fx:id="drawFromDeckButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0" text="deck" />
                   <ImageView fitHeight="100.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
-            <HBox id="playerField" fx:id="playerVbox" prefHeight="300.0" prefWidth="200.0">
+            <HBox fx:id="playerHbox" prefHeight="300.0" prefWidth="200.0">
                <children>
                   <Button fx:id="playerCard1Button" mnemonicParsing="false" prefHeight="125.0" prefWidth="100.0" text="c1" />
                   <Button fx:id="playerCard2Button" mnemonicParsing="false" prefHeight="125.0" prefWidth="100.0" text="c2" />

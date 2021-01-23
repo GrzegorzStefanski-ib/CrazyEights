@@ -27,6 +27,7 @@ public class CrazyEights extends Application {
     controller = loader.getController();
 
     stage.setScene(scene);
+    stage.setTitle("Crazy Eights");
     stage.setResizable(false);
     stage.show();
   }
