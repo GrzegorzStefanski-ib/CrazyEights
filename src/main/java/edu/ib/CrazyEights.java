@@ -23,7 +23,7 @@ public class CrazyEights extends Application {
     loader = new FXMLLoader(getClass().getResource("/fxml/crazyEights.fxml"));
     root = loader.load();
 
-    scene = new Scene(root, 300, 400);
+    scene = new Scene(root, 800, 600);
     controller = loader.getController();
 
     stage.setScene(scene);
