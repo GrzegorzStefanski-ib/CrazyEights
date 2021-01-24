@@ -12,7 +12,7 @@ public class CrazyEights extends Application {
   FXMLLoader loader;
   Parent root;
   Scene scene;
-  CrazyEightsController controller;
+  LoginScreenController controller;
 
   public static void main(String[] args) {
     launch(args);
@@ -20,10 +20,10 @@ public class CrazyEights extends Application {
 
   @Override
   public void start(Stage stage) throws IOException {
-    loader = new FXMLLoader(getClass().getResource("/fxml/crazyEights.fxml"));
+    loader = new FXMLLoader(getClass().getResource("/fxml/loginScreen.fxml"));
     root = loader.load();
 
-    scene = new Scene(root, 800, 600);
+    scene = new Scene(root, 600, 400);
     controller = loader.getController();
 
     stage.setScene(scene);

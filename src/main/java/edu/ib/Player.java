@@ -9,38 +9,41 @@ public class Player {
   private List<Card> cards;
   private int score;
 
-  /**
-   * @param name
-   * @param cards
-   * @param score
-   */
-  public Player(String name, List<Card> cards, int score) {
+  public Player(String name, List<Card> cards) {
     this.name = name;
     this.cards = cards;
-    this.score = score;
+    this.score = 0;
   }
 
-  /**
-   * @param discardPile
-   * @param index
-   * @return
-   */
   public Card playCard(DiscardPile discardPile, int index) {
-    // TODO:
+
+    Card card = cards.get(index);
+
+    if (discardPile.getLastCard().compare(card)) {
+      return cards.remove(index);
+    }
+
     return null;
   }
 
-  /** @param deck */
-  public void drawCard(Deck deck) {
-    // TODO:
+  public boolean checkIfWin() {
+    return cards.isEmpty();
   }
 
-  /** @return */
+  public void drawCard(Deck deck) {
+
+    Card card = deck.getCard();
+    cards.add(card);
+  }
+
   public int getScore() {
     return score;
   }
 
-  /** @param score */
+  public List<Card> getCards() {
+    return cards;
+  }
+
   public void setScore(int score) {
     this.score = score;
   }

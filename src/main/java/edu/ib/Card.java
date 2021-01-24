@@ -3,23 +3,30 @@ package edu.ib;
 
 public class Card {
 
-  private char color;
-  private byte value;
+  private final char color;
+  private final String value;
 
-  /**
-   * @param color
-   * @param value
-   */
-  public Card(char color, byte value) {
+  public Card(char color, String value) {
     this.color = color;
     this.value = value;
   }
 
-  /**
-   * @param card
-   * @return
-   */
   public boolean compare(Card card) {
-    return false;
+    return color == card.getColor()
+        || value.equals(card.getValue())
+        || value.equals("8"); // TODO: eights
+  }
+
+  public char getColor() {
+    return color;
+  }
+
+  public String getValue() {
+    return value;
+  }
+
+  @Override
+  public String toString() {
+    return "Card{" + "color=" + color + ", value=" + value + '}';
   }
 }
