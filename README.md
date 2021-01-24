@@ -108,7 +108,7 @@ Project Link: [https://github.com/GrzegorzStefanski-ib/CrazyEights](https://gith
 ## Acknowledgements
 * [Readme template](https://github.com/othneildrew/Best-README-Template)
 * [Img Shields](https://shields.io)
-* [Icon](https://lovepik.com/images/png-free.htm)
+* [Icon](https://lovepik.com/image-401289873/playing-card-icon-free-vector-illustration-material.html)
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
