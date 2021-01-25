@@ -1,5 +1,5 @@
 //Copyright (C) 2021, Grzegorz Stefański
-package edu.ib;
+package edu.ib.project.crazyeights.frontend;
 
 import java.net.URL;
 import java.util.ResourceBundle;

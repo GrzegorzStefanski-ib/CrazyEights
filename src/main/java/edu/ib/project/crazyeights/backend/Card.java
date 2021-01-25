@@ -1,23 +1,21 @@
 //Copyright (C) 2021, Grzegorz Stefański
-package edu.ib;
+package edu.ib.project.crazyeights.backend;
 
 public class Card {
 
-  private final char color;
+  private final String color;
   private final String value;
 
-  public Card(char color, String value) {
+  public Card(String color, String value) {
     this.color = color;
     this.value = value;
   }
 
   public boolean compare(Card card) {
-    return color == card.getColor()
-        || value.equals(card.getValue())
-        || value.equals("8"); // TODO: eights
+    return color.equals(card.getColor()) || value.equals(card.getValue()) | value.equals("8");
   }
 
-  public char getColor() {
+  public String getColor() {
     return color;
   }
 

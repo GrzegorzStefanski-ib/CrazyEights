@@ -9,8 +9,6 @@ plugins {
     id "com.diffplug.spotless" version "5.8.2"
 }
 
-
-
 repositories {
     jcenter()
 }
@@ -78,9 +76,9 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
-
 javafx {
     version = '15'
     modules = ['javafx.controls', 'javafx.fxml', 'javafx.swing']
 }
-mainClassName='edu.ib.CrazyEights'
+
+mainClassName='edu.ib.project.crazyeights.backend.Main'
