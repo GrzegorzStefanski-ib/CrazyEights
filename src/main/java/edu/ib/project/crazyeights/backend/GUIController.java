@@ -70,6 +70,8 @@ public class GUIController {
     }
 
     menuScreen.setVisible(false);
+    playCardButton.setDisable(false);
+    drawCardButton.setDisable(false);
     gameScreen.setVisible(true);
 
     displayAllCardsInGame();
