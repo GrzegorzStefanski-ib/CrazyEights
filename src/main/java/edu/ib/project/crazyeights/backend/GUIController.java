@@ -4,14 +4,17 @@ package edu.ib.project.crazyeights.backend;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 public class GUIController {
@@ -35,43 +38,30 @@ public class GUIController {
   @FXML private Button confirmNewColorChoiceButton;
 
   @FXML private ListView<String> bot1CardList;
-
   @FXML private ListView<String> bot2CardList;
-
   @FXML private ListView<String> bot3CardList;
 
   @FXML private Label winPrompt;
-
   @FXML private Label defeatPrompt;
-
   @FXML private Label cheaterPrompt;
 
   @FXML private Label actualColorLabel;
 
   @FXML private ImageView bot1ImageView;
-
   @FXML private ImageView bot3ImageView;
-
   @FXML private ImageView bot2ImageView;
 
-  @FXML private Button card8Button;
-
-  @FXML private Button card6Button;
-
-  @FXML private Button card4Button;
-
-  @FXML private Button card2Button;
+  @FXML private AnchorPane cardsPane;
 
   @FXML private Button card1Button;
-
+  @FXML private Button card2Button;
   @FXML private Button card3Button;
-
+  @FXML private Button card4Button;
   @FXML private Button card5Button;
-
+  @FXML private Button card6Button;
   @FXML private Button card7Button;
-
+  @FXML private Button card8Button;
   @FXML private Button card9Button;
-
   @FXML private Button card10Button;
 
   @FXML private ImageView discardView;
@@ -104,46 +94,24 @@ public class GUIController {
   @FXML
   void playCardButtonOnClick(ActionEvent event) throws Exception {
     int cardToPlayIndex = -1;
-    if (event.getSource().equals(card1Button)) cardToPlayIndex = 0;
-    if (event.getSource().equals(card2Button)) cardToPlayIndex = 1;
-    if (event.getSource().equals(card3Button)) cardToPlayIndex = 2;
-    if (event.getSource().equals(card4Button)) cardToPlayIndex = 3;
-    if (event.getSource().equals(card5Button)) cardToPlayIndex = 4;
-    if (event.getSource().equals(card6Button)) cardToPlayIndex = 5;
-    if (event.getSource().equals(card7Button)) cardToPlayIndex = 6;
-    if (event.getSource().equals(card8Button)) cardToPlayIndex = 7;
-    if (event.getSource().equals(card9Button)) cardToPlayIndex = 8;
-    if (event.getSource().equals(card10Button)) cardToPlayIndex = 9;
+
+    ObservableList<Node> cards = cardsPane.getChildren();
+    for (int i = 0; i < cards.size(); i++) {
+      if (event.getSource().equals(cards.get(i))) cardToPlayIndex = i;
+    }
 
     Deck deck = game.getDeck();
     Player player = game.getPlayer();
 
     try {
       player.playCard(deck, cardToPlayIndex);
+      removeCard(cardToPlayIndex);
     } catch (Exception e) {
       e.printStackTrace();
       return;
     }
 
     turnEnd(player);
-
-    //    showDiscardPileLastCard();
-    //    showPlayerCards();
-    //
-    //    if (player.isPlayersCardEmpty()) gameEnd(winPrompt);
-    //    else {
-    //      List<Player> bots = game.getBotsList();
-    //      BotsAlgorithm botsAlgorithm = new BotsAlgorithm(game);
-    //
-    //      for (Player bot : bots) {
-    //        botsAlgorithm.makeBotMove(bot);
-    //
-    //        showDiscardPileLastCard();
-    //        showBotsCards();
-    //
-    //        if (bot.isPlayersCardEmpty()) gameEnd(defeatPrompt);
-    //      }
-    //    }
   }
 
   @FXML
@@ -161,7 +129,6 @@ public class GUIController {
     }
 
     turnEnd(player);
-    //    showPlayerCards();
   }
 
   @FXML
@@ -200,6 +167,8 @@ public class GUIController {
         : "fx:id=\"bot3ImageView\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot2ImageView != null
         : "fx:id=\"bot2ImageView\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert cardsPane != null
+        : "fx:id=\"cardsPane\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert card1Button != null
         : "fx:id=\"card1Button\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert card2Button != null
@@ -704,23 +673,22 @@ public class GUIController {
     bot3ImageView.setImage(catPhotos[r]);
   }
 
-  private void turnEnd(Player player) throws Exception {
-    showDiscardPileLastCard();
-    showPlayerCards();
+  private void addCard() {
+    Button button = new Button();
+    button.setPrefWidth(65);
+    button.setPrefHeight(116);
+    button.setLayoutX(cardsPane.getChildren().size() * 70);
+    cardsPane.getChildren().add(button);
+  }
 
-    if (player.isPlayersCardEmpty()) gameEnd(winPrompt);
-    else {
-      List<Player> bots = game.getBotsList();
-      BotsAlgorithm botsAlgorithm = new BotsAlgorithm(game);
+  private void removeCard(int index) throws Exception {
+    ObservableList<Node> cards = cardsPane.getChildren();
+    if (index > cards.size() - 1) throw new Exception("Error: CrazyEightsTest.java 716");
 
-      for (Player bot : bots) {
-        botsAlgorithm.makeBotMove(bot);
+    cards.remove(index);
 
-        showDiscardPileLastCard();
-        showBotsCards();
-
-        if (bot.isPlayersCardEmpty()) gameEnd(defeatPrompt);
-      }
+    for (int i = index; i < cards.size(); i++) {
+      cards.get(i).setLayoutX(i * 70);
     }
   }
 
@@ -744,6 +712,26 @@ public class GUIController {
       botCardList.getItems().clear();
       for (Card botCard : botCards) {
         botCardList.getItems().add(botCard.toString());
+      }
+    }
+  }
+
+  private void turnEnd(Player player) throws Exception {
+    showDiscardPileLastCard();
+    showPlayerCards();
+
+    if (player.isPlayersCardEmpty()) gameEnd(winPrompt);
+    else {
+      List<Player> bots = game.getBotsList();
+      BotsAlgorithm botsAlgorithm = new BotsAlgorithm(game);
+
+      for (Player bot : bots) {
+        botsAlgorithm.makeBotMove(bot);
+
+        showDiscardPileLastCard();
+        showBotsCards();
+
+        if (bot.isPlayersCardEmpty()) gameEnd(defeatPrompt);
       }
     }
   }

@@ -23,14 +23,12 @@ public class BotsAlgorithm {
       Card cardToPlay = bot.getCard(cardToPlayIndex);
 
       if (Card.compareCrazyEight(cardToPlay)) {
-        String[] colors = {"H","S","D","C"};
+        String[] colors = {"H", "S", "D", "C"};
         Random random = new Random();
         int colorIndex = random.nextInt(colors.length);
 
         bot.playCrazyEight(deck, cardToPlayIndex, colors[colorIndex]);
-      }
-      else
-        bot.playCard(deck, cardToPlayIndex);
+      } else bot.playCard(deck, cardToPlayIndex);
     }
 
     //    while (indexesOfPlayableCards.size() == 0) {
