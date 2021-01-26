@@ -125,30 +125,32 @@ public class GUIController {
       return;
     }
 
-    showDiscardPileLastCard();
-    showPlayerCards();
+    turnEnd(player);
 
-    if (player.isPlayersCardEmpty()) gameEnd(winPrompt);
-    else {
-      List<Player> bots = game.getBotsList();
-      BotsAlgorithm botsAlgorithm = new BotsAlgorithm(game);
-
-      for (Player bot : bots) {
-        botsAlgorithm.makeBotMove(bot);
-
-        showDiscardPileLastCard();
-        showBotsCards();
-
-        if (bot.isPlayersCardEmpty()) gameEnd(defeatPrompt);
-      }
-    }
+//    showDiscardPileLastCard();
+//    showPlayerCards();
+//
+//    if (player.isPlayersCardEmpty()) gameEnd(winPrompt);
+//    else {
+//      List<Player> bots = game.getBotsList();
+//      BotsAlgorithm botsAlgorithm = new BotsAlgorithm(game);
+//
+//      for (Player bot : bots) {
+//        botsAlgorithm.makeBotMove(bot);
+//
+//        showDiscardPileLastCard();
+//        showBotsCards();
+//
+//        if (bot.isPlayersCardEmpty()) gameEnd(defeatPrompt);
+//      }
+//    }
   }
 
   @FXML
   void confirmNewColorChoiceButtonOnClick(ActionEvent event) {}
 
   @FXML
-  void drawCardButtonOnClick(ActionEvent event) {
+  void drawCardButtonOnClick(ActionEvent event) throws Exception {
     Deck deck = game.getDeck();
     Player player = game.getPlayer();
 
@@ -158,7 +160,8 @@ public class GUIController {
       gameEnd(cheaterPrompt);
     }
 
-    showPlayerCards();
+    turnEnd(player);
+//    showPlayerCards();
   }
 
   @FXML
@@ -699,6 +702,26 @@ public class GUIController {
       r = random.nextInt(catPhotos.length);
     }
     bot3ImageView.setImage(catPhotos[r]);
+  }
+
+  private void turnEnd(Player player) throws Exception {
+    showDiscardPileLastCard();
+    showPlayerCards();
+
+    if (player.isPlayersCardEmpty()) gameEnd(winPrompt);
+    else {
+      List<Player> bots = game.getBotsList();
+      BotsAlgorithm botsAlgorithm = new BotsAlgorithm(game);
+
+      for (Player bot : bots) {
+        botsAlgorithm.makeBotMove(bot);
+
+        showDiscardPileLastCard();
+        showBotsCards();
+
+        if (bot.isPlayersCardEmpty()) gameEnd(defeatPrompt);
+      }
+    }
   }
 
   // For dev tests

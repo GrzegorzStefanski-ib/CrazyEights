@@ -16,12 +16,17 @@ public class BotsAlgorithm {
     List<Integer> indexesOfPlayableCards = getIndexesOfPlayableCards(bot);
     Deck deck = game.getDeck();
 
-    while (indexesOfPlayableCards.size() == 0) {
+    if (indexesOfPlayableCards.size() == 0)
       bot.drawCard(deck);
-      indexesOfPlayableCards = getIndexesOfPlayableCards(bot);
-    }
+    else
+      bot.playCard(deck, indexesOfPlayableCards.get(0));
 
-    bot.playCard(deck, indexesOfPlayableCards.get(0));
+//    while (indexesOfPlayableCards.size() == 0) {
+//      bot.drawCard(deck);
+//      indexesOfPlayableCards = getIndexesOfPlayableCards(bot);
+//    }
+//
+//    bot.playCard(deck, indexesOfPlayableCards.get(0));
   }
 
   private List<Integer> getIndexesOfPlayableCards(Player bot) {
