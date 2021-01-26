@@ -33,10 +33,6 @@ public class GUIController {
 
   @FXML private Button drawCardButton;
 
-  @FXML private ChoiceBox<String> newColorSelector;
-
-  @FXML private Button confirmNewColorChoiceButton;
-
   @FXML private ListView<String> bot1CardList;
   @FXML private ListView<String> bot2CardList;
   @FXML private ListView<String> bot3CardList;
@@ -103,19 +99,22 @@ public class GUIController {
     Deck deck = game.getDeck();
     Player player = game.getPlayer();
 
-    try {
-      player.playCard(deck, cardToPlayIndex);
-      removeCard(cardToPlayIndex);
-    } catch (Exception e) {
-      e.printStackTrace();
-      return;
+    Card cardToPlay = player.getCard(cardToPlayIndex);
+    if (Card.compareCrazyEight(cardToPlay)) {
+      Random random = new Random();
+      player.playCrazyEight(deck, cardToPlayIndex, (byte) random.nextInt(4));   // TODO: Color selection by player.
+    } else {
+      try {
+        player.playCard(deck, cardToPlayIndex);
+        removeCard(cardToPlayIndex);
+      } catch (Exception e) {
+        e.printStackTrace();
+        return;
+      }
     }
 
     turnEnd(player);
   }
-
-  @FXML
-  void confirmNewColorChoiceButtonOnClick(ActionEvent event) {}
 
   @FXML
   void drawCardButtonOnClick(ActionEvent event) throws Exception {
@@ -143,10 +142,6 @@ public class GUIController {
         : "fx:id=\"gameScreen\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert drawCardButton != null
         : "fx:id=\"drawCardButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert newColorSelector != null
-        : "fx:id=\"newColorSelector\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert confirmNewColorChoiceButton != null
-        : "fx:id=\"confirmNewColorChoiceButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot1CardList != null
         : "fx:id=\"bot1CardList\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot2CardList != null
@@ -196,12 +191,6 @@ public class GUIController {
     gameModeSelector.getItems().add("3 players");
     gameModeSelector.getItems().add("4 players");
     gameModeSelector.setValue("2 players");
-
-    newColorSelector.getItems().add("Hearts");
-    newColorSelector.getItems().add("Diamonds");
-    newColorSelector.getItems().add("Spades");
-    newColorSelector.getItems().add("Clubs");
-    newColorSelector.setValue("Hearts");
 
     initializeCardImages();
     generateCats();

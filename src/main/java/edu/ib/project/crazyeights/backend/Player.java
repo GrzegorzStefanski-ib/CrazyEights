@@ -27,7 +27,7 @@ public class Player {
     } else throw new Exception("Player can't play this card now!");
   }
 
-  public void playCrazyEight(Deck deck, int cardIndex, String newColor) {
+  public void playCrazyEight(Deck deck, int cardIndex, byte newColor) {
     Card cardToPlay = playerCards.get(cardIndex);
 
     playerCards.remove(cardToPlay);

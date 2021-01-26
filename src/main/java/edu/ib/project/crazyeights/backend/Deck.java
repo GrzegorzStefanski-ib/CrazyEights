@@ -9,7 +9,7 @@ public class Deck {
 
   private List<Card> deckCards;
   private List<Card> discardPileCards;
-  private String actualColor;
+  private Byte actualColor;
 
   public Deck(List<Card> deckCards, List<Card> discardPileCards) {
     this.deckCards = deckCards;
@@ -53,7 +53,7 @@ public class Deck {
     if (actualColor != null) actualColor = null;
   }
 
-  public void addCardToDiscardPile(Card card, String newColor) {
+  public void addCardToDiscardPile(Card card, byte newColor) {
     discardPileCards.add(card);
     actualColor = newColor;
   }

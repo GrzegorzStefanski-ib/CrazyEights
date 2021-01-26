@@ -72,7 +72,7 @@ public class Game {
     while ((line = bf.readLine()) != null) {
       String[] lineSplit = line.split(",");
 
-      cards.add(new Card(lineSplit[0], lineSplit[1]));
+      cards.add(new Card(Byte.parseByte(lineSplit[0]), Byte.parseByte(lineSplit[1])));
     }
 
     bf.close();

@@ -23,20 +23,11 @@ public class BotsAlgorithm {
       Card cardToPlay = bot.getCard(cardToPlayIndex);
 
       if (Card.compareCrazyEight(cardToPlay)) {
-        String[] colors = {"H", "S", "D", "C"};
         Random random = new Random();
-        int colorIndex = random.nextInt(colors.length);
 
-        bot.playCrazyEight(deck, cardToPlayIndex, colors[colorIndex]);
+        bot.playCrazyEight(deck, cardToPlayIndex, (byte) random.nextInt(4));
       } else bot.playCard(deck, cardToPlayIndex);
     }
-
-    //    while (indexesOfPlayableCards.size() == 0) {
-    //      bot.drawCard(deck);
-    //      indexesOfPlayableCards = getIndexesOfPlayableCards(bot);
-    //    }
-    //
-    //    bot.playCard(deck, indexesOfPlayableCards.get(0));
   }
 
   private List<Integer> getIndexesOfPlayableCards(Player bot) {

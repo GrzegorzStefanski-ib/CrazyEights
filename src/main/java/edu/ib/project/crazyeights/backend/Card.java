@@ -3,27 +3,27 @@ package edu.ib.project.crazyeights.backend;
 
 public class Card {
 
-  private final String color;
-  private final String value;
+  private final byte color;
+  private final byte value;
 
-  public Card(String color, String value) {
+  public Card(byte color, byte value) {
     this.color = color;
     this.value = value;
   }
 
   public boolean compare(Card card) {
-    return color.equals(card.getColor()) || value.equals(card.getValue());
+    return color == card.getColor() || value == card.getValue();
   }
 
   public static boolean compareCrazyEight(Card card) {
-    return card.getValue().equals("8");
+    return card.getValue() == 8;
   }
 
-  public String getColor() {
+  public byte getColor() {
     return color;
   }
 
-  public String getValue() {
+  public byte getValue() {
     return value;
   }
 
