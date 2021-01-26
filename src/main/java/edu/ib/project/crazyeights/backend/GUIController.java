@@ -1,6 +1,7 @@
 //Copyright (C) 2021, Grzegorz Stefański
 package edu.ib.project.crazyeights.backend;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -15,6 +16,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 public class GUIController {
@@ -51,11 +53,49 @@ public class GUIController {
 
   @FXML private ImageView discardView;
 
+  @FXML private GridPane colorPicker;
+
+  @FXML private Button heartsButton;
+
+  @FXML private Button spadesButton;
+
+  @FXML private Button diamondsButton;
+
+  @FXML private Button clubsButton;
+
+  @FXML private Label newColorLabel;
+
   private Game game;
   private ImageView[] cardImages;
   private Image[] cardImagesRaw;
+  private int cardToPlayIndexHolder;
 
-  // TODO: Support for crazy eights.
+  @FXML
+  void colorPickOnClick(ActionEvent event) throws Exception {
+    Button button = (Button) event.getSource();
+    String colorEncoding = button.getText();
+
+    byte newColor =
+        switch (colorEncoding) {
+          case "Hearts" -> (byte) 0;
+          case "Spades" -> (byte) 1;
+          case "Diamonds" -> (byte) 2;
+          case "Clubs" -> (byte) 3;
+          default -> throw new IllegalStateException("Unexpected value: " + colorEncoding);
+        };
+
+    Deck deck = game.getDeck();
+    Player player = game.getPlayer();
+
+    player.playCrazyEight(deck, cardToPlayIndexHolder, newColor);
+    removeCard(cardToPlayIndexHolder);
+
+    cardsPane.setMouseTransparent(false);
+    discardView.setMouseTransparent(false);
+    colorPicker.setVisible(false);
+
+    turnEnd(player);
+  }
 
   @FXML
   void startGameButtonOnClick(ActionEvent event) {
@@ -81,36 +121,6 @@ public class GUIController {
     gameScreen.setVisible(true);
 
     displayAllCardsInGame();
-  }
-
-  @FXML
-  void playCardButtonOnClick(ActionEvent event) throws Exception {
-    int cardToPlayIndex = -1;
-
-    ObservableList<Node> cards = cardsPane.getChildren();
-    for (int i = 0; i < cards.size(); i++) {
-      if (event.getSource().equals(cards.get(i))) cardToPlayIndex = i;
-    }
-
-    Deck deck = game.getDeck();
-    Player player = game.getPlayer();
-
-    Card cardToPlay = player.getCard(cardToPlayIndex);
-    if (Card.compareCrazyEight(cardToPlay)) {
-      Random random = new Random();
-      player.playCrazyEight(
-          deck, cardToPlayIndex, (byte) random.nextInt(4)); // TODO: Color selection by player.
-    } else {
-      try {
-        player.playCard(deck, cardToPlayIndex);
-        removeCard(cardToPlayIndex);
-      } catch (Exception e) {
-        e.printStackTrace();
-        return;
-      }
-    }
-
-    turnEnd(player);
   }
 
   @FXML
@@ -164,6 +174,18 @@ public class GUIController {
         : "fx:id=\"cardsPane\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert discardView != null
         : "fx:id=\"discardView\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert colorPicker != null
+        : "fx:id=\"colorPicker\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert heartsButton != null
+        : "fx:id=\"heartsButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert spadesButton != null
+        : "fx:id=\"spadesButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert diamondsButton != null
+        : "fx:id=\"diamondsButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert clubsButton != null
+        : "fx:id=\"clubsButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert newColorLabel != null
+        : "fx:id=\"newColorLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
 
     gameModeSelector.getItems().add("2 players");
     gameModeSelector.getItems().add("3 players");
@@ -175,240 +197,31 @@ public class GUIController {
   }
 
   private void initializeCardImages() {
-    Image c2 = new Image("/cards/C2.png");
-    Image c3 = new Image("/cards/C3.png");
-    Image c4 = new Image("/cards/C4.png");
-    Image c5 = new Image("/cards/C5.png");
-    Image c6 = new Image("/cards/C6.png");
-    Image c7 = new Image("/cards/C7.png");
-    Image c8 = new Image("/cards/C8.png");
-    Image c9 = new Image("/cards/C9.png");
-    Image c10 = new Image("/cards/C10.png");
-    Image cA = new Image("/cards/CA.png");
-    Image cQ = new Image("/cards/CQ.png");
-    Image cJ = new Image("/cards/CJ.png");
-    Image cK = new Image("/cards/CK.png");
-    ImageView c2V = new ImageView(c2);
-    ImageView c3V = new ImageView(c3);
-    ImageView c4V = new ImageView(c4);
-    ImageView c5V = new ImageView(c5);
-    ImageView c6V = new ImageView(c6);
-    ImageView c7V = new ImageView(c7);
-    ImageView c8V = new ImageView(c8);
-    ImageView c9V = new ImageView(c9);
-    ImageView c10V = new ImageView(c10);
-    ImageView cAV = new ImageView(cA);
-    ImageView cQV = new ImageView(cQ);
-    ImageView cJV = new ImageView(cJ);
-    ImageView cKV = new ImageView(cK);
-    c2V.setFitHeight(116);
-    c2V.setPreserveRatio(true);
-    c3V.setFitHeight(116);
-    c3V.setPreserveRatio(true);
-    c4V.setFitHeight(116);
-    c4V.setPreserveRatio(true);
-    c5V.setFitHeight(116);
-    c5V.setPreserveRatio(true);
-    c6V.setFitHeight(116);
-    c6V.setPreserveRatio(true);
-    c7V.setFitHeight(116);
-    c7V.setPreserveRatio(true);
-    c8V.setFitHeight(116);
-    c8V.setPreserveRatio(true);
-    c9V.setFitHeight(116);
-    c9V.setPreserveRatio(true);
-    c10V.setFitHeight(116);
-    c10V.setPreserveRatio(true);
-    cAV.setFitHeight(116);
-    cAV.setPreserveRatio(true);
-    cJV.setFitHeight(116);
-    cJV.setPreserveRatio(true);
-    cQV.setFitHeight(116);
-    cQV.setPreserveRatio(true);
-    cKV.setFitHeight(116);
-    cKV.setPreserveRatio(true);
+    File dir = new File("src/main/resources/cards/");
+    File[] files = dir.listFiles();
 
-    Image d2 = new Image("/cards/D2.png");
-    Image d3 = new Image("/cards/D3.png");
-    Image d4 = new Image("/cards/D4.png");
-    Image d5 = new Image("/cards/D5.png");
-    Image d6 = new Image("/cards/D6.png");
-    Image d7 = new Image("/cards/D7.png");
-    Image d8 = new Image("/cards/D8.png");
-    Image d9 = new Image("/cards/D9.png");
-    Image d10 = new Image("/cards/D10.png");
-    Image dA = new Image("/cards/DA.png");
-    Image dQ = new Image("/cards/DQ.png");
-    Image dJ = new Image("/cards/DJ.png");
-    Image dK = new Image("/cards/DK.png");
-    ImageView d2V = new ImageView(d2);
-    ImageView d3V = new ImageView(d3);
-    ImageView d4V = new ImageView(d4);
-    ImageView d5V = new ImageView(d5);
-    ImageView d6V = new ImageView(d6);
-    ImageView d7V = new ImageView(d7);
-    ImageView d8V = new ImageView(d8);
-    ImageView d9V = new ImageView(d9);
-    ImageView d10V = new ImageView(d10);
-    ImageView dAV = new ImageView(dA);
-    ImageView dQV = new ImageView(dQ);
-    ImageView dJV = new ImageView(dJ);
-    ImageView dKV = new ImageView(dK);
-    d2V.setFitHeight(116);
-    d2V.setPreserveRatio(true);
-    d3V.setFitHeight(116);
-    d3V.setPreserveRatio(true);
-    d4V.setFitHeight(116);
-    d4V.setPreserveRatio(true);
-    d5V.setFitHeight(116);
-    d5V.setPreserveRatio(true);
-    d6V.setFitHeight(116);
-    d6V.setPreserveRatio(true);
-    d7V.setFitHeight(116);
-    d7V.setPreserveRatio(true);
-    d8V.setFitHeight(116);
-    d8V.setPreserveRatio(true);
-    d9V.setFitHeight(116);
-    d9V.setPreserveRatio(true);
-    d10V.setFitHeight(116);
-    d10V.setPreserveRatio(true);
-    dAV.setFitHeight(116);
-    dAV.setPreserveRatio(true);
-    dJV.setFitHeight(116);
-    dJV.setPreserveRatio(true);
-    dQV.setFitHeight(116);
-    dQV.setPreserveRatio(true);
-    dKV.setFitHeight(116);
-    dKV.setPreserveRatio(true);
+    //    for (File file : files) {
+    //      System.out.println(file);
+    //    }
 
-    Image h2 = new Image("/cards/H2.png");
-    Image h3 = new Image("/cards/H3.png");
-    Image h4 = new Image("/cards/H4.png");
-    Image h5 = new Image("/cards/H5.png");
-    Image h6 = new Image("/cards/H6.png");
-    Image h7 = new Image("/cards/H7.png");
-    Image h8 = new Image("/cards/H8.png");
-    Image h9 = new Image("/cards/H9.png");
-    Image h10 = new Image("/cards/H10.png");
-    Image hA = new Image("/cards/HA.png");
-    Image hQ = new Image("/cards/HQ.png");
-    Image hJ = new Image("/cards/HJ.png");
-    Image hK = new Image("/cards/HK.png");
-    ImageView h2V = new ImageView(h2);
-    ImageView h3V = new ImageView(h3);
-    ImageView h4V = new ImageView(h4);
-    ImageView h5V = new ImageView(h5);
-    ImageView h6V = new ImageView(h6);
-    ImageView h7V = new ImageView(h7);
-    ImageView h8V = new ImageView(h8);
-    ImageView h9V = new ImageView(h9);
-    ImageView h10V = new ImageView(h10);
-    ImageView hAV = new ImageView(hA);
-    ImageView hQV = new ImageView(hQ);
-    ImageView hJV = new ImageView(hJ);
-    ImageView hKV = new ImageView(hK);
-    h2V.setFitHeight(116);
-    h2V.setPreserveRatio(true);
-    h3V.setFitHeight(116);
-    h3V.setPreserveRatio(true);
-    h4V.setFitHeight(116);
-    h4V.setPreserveRatio(true);
-    h5V.setFitHeight(116);
-    h5V.setPreserveRatio(true);
-    h6V.setFitHeight(116);
-    h6V.setPreserveRatio(true);
-    h7V.setFitHeight(116);
-    h7V.setPreserveRatio(true);
-    h8V.setFitHeight(116);
-    h8V.setPreserveRatio(true);
-    h9V.setFitHeight(116);
-    h9V.setPreserveRatio(true);
-    h10V.setFitHeight(116);
-    h10V.setPreserveRatio(true);
-    hAV.setFitHeight(116);
-    hAV.setPreserveRatio(true);
-    hJV.setFitHeight(116);
-    hJV.setPreserveRatio(true);
-    hQV.setFitHeight(116);
-    hQV.setPreserveRatio(true);
-    hKV.setFitHeight(116);
-    hKV.setPreserveRatio(true);
+    cardImagesRaw = new Image[52];
+    cardImages = new ImageView[52];
 
-    Image s2 = new Image("/cards/S2.png");
-    Image s3 = new Image("/cards/S3.png");
-    Image s4 = new Image("/cards/S4.png");
-    Image s5 = new Image("/cards/S5.png");
-    Image s6 = new Image("/cards/S6.png");
-    Image s7 = new Image("/cards/S7.png");
-    Image s8 = new Image("/cards/S8.png");
-    Image s9 = new Image("/cards/S9.png");
-    Image s10 = new Image("/cards/S10.png");
-    Image sA = new Image("/cards/SA.png");
-    Image sQ = new Image("/cards/SQ.png");
-    Image sJ = new Image("/cards/SJ.png");
-    Image sK = new Image("/cards/SK.png");
-    ImageView s2V = new ImageView(s2);
-    ImageView s3V = new ImageView(s3);
-    ImageView s4V = new ImageView(s4);
-    ImageView s5V = new ImageView(s5);
-    ImageView s6V = new ImageView(s6);
-    ImageView s7V = new ImageView(s7);
-    ImageView s8V = new ImageView(s8);
-    ImageView s9V = new ImageView(s9);
-    ImageView s10V = new ImageView(s10);
-    ImageView sAV = new ImageView(sA);
-    ImageView sQV = new ImageView(sQ);
-    ImageView sJV = new ImageView(sJ);
-    ImageView sKV = new ImageView(sK);
-    s2V.setFitHeight(116);
-    s2V.setPreserveRatio(true);
-    s3V.setFitHeight(116);
-    s3V.setPreserveRatio(true);
-    s4V.setFitHeight(116);
-    s4V.setPreserveRatio(true);
-    s5V.setFitHeight(116);
-    s5V.setPreserveRatio(true);
-    s6V.setFitHeight(116);
-    s6V.setPreserveRatio(true);
-    s7V.setFitHeight(116);
-    s7V.setPreserveRatio(true);
-    s8V.setFitHeight(116);
-    s8V.setPreserveRatio(true);
-    s9V.setFitHeight(116);
-    s9V.setPreserveRatio(true);
-    s10V.setFitHeight(116);
-    s10V.setPreserveRatio(true);
-    sAV.setFitHeight(116);
-    sAV.setPreserveRatio(true);
-    sJV.setFitHeight(116);
-    sJV.setPreserveRatio(true);
-    sQV.setFitHeight(116);
-    sQV.setPreserveRatio(true);
-    sKV.setFitHeight(116);
-    sKV.setPreserveRatio(true);
+    for (int i = 0; i < Objects.requireNonNull(files).length - 1; i++) {
+      System.out.println(files[i].toString().substring(18));
+      cardImagesRaw[i] = new Image(files[i].toString().substring(18));
+      cardImages[i] = new ImageView(cardImagesRaw[i]);
+      cardImages[i].setFitWidth(116);
+      cardImages[i].setPreserveRatio(true);
+    }
 
-    Image cardback = new Image("/cards/cardback.png");
-    ImageView cardbackView = new ImageView(cardback);
-    cardbackView.setPreserveRatio(true);
-    cardbackView.setFitHeight(116);
+    Image cardBack = new Image("/cards/5.png");
+    ImageView cardBackView = new ImageView(cardBack);
+    cardBackView.setFitHeight(116);
+    cardBackView.setPreserveRatio(true);
+
     discardView.setPreserveRatio(true);
-
-    drawCardButton.setGraphic(cardbackView);
-
-    cardImages =
-        new ImageView[] {
-          h2V, h3V, h4V, h5V, h6V, h7V, h8V, h9V, h10V, hJV, hQV, hKV, hAV,
-          s2V, s3V, s4V, s5V, s6V, s7V, s8V, s9V, s10V, sJV, sQV, sKV, sAV,
-          d2V, d3V, d4V, d5V, d6V, d7V, d8V, d9V, d10V, dJV, dQV, dKV, dAV,
-          c2V, c3V, c4V, c5V, c6V, c7V, c8V, c9V, c10V, cJV, cQV, cKV, cAV
-        };
-    cardImagesRaw =
-        new Image[] {
-          h2, h3, h4, h5, h6, h7, h8, h9, h10, hJ, hQ, hK, hA,
-          s2, s3, s4, s5, s6, s7, s8, s9, s10, sJ, sQ, sK, sA,
-          d2, d3, d4, d5, d6, d7, d8, d9, d10, dJ, dQ, dK, dA,
-          c2, c3, c4, c5, c6, c7, c8, c9, c10, cJ, cQ, cK, cA
-        };
+    drawCardButton.setGraphic(cardBackView);
   }
 
   private void showPlayerCards() {
@@ -462,7 +275,21 @@ public class GUIController {
 
   private void showDiscardPileLastCard() {
     Deck deck = game.getDeck();
-    Card discardPileLastCard = deck.getLastCardFromDiscardPile();
+    Card discardPileLastCard = deck.getLastCardFromDiscardPileForGUI();
+
+    if (deck.getActualColor() != null) {
+      String actualColor =
+          switch (deck.getActualColor()) {
+            case 0 -> "Hearts";
+            case 1 -> "Spades";
+            case 2 -> "Diamonds";
+            case 3 -> "Clubs";
+            default -> throw new IllegalStateException(
+                "Unexpected value: " + deck.getActualColor());
+          };
+
+      newColorLabel.setText("Actual color is " + actualColor);
+    } else newColorLabel.setText("");
 
     byte color = discardPileLastCard.getColor();
     byte value = discardPileLastCard.getValue();
@@ -514,11 +341,7 @@ public class GUIController {
 
           Card cardToPlay = player.getCard(cardToPlayIndex);
           if (Card.compareCrazyEight(cardToPlay)) {
-            Random random = new Random();
-            player.playCrazyEight(
-                deck,
-                cardToPlayIndex,
-                (byte) random.nextInt(4)); // TODO: Color selection by player.
+            showColorPicker(cardToPlayIndex);
           } else {
             try {
               player.playCard(deck, cardToPlayIndex);
@@ -536,6 +359,13 @@ public class GUIController {
           }
         });
     cardsPane.getChildren().add(button);
+  }
+
+  private void showColorPicker(int cardToPlayIndex) {
+    cardToPlayIndexHolder = cardToPlayIndex;
+    cardsPane.setMouseTransparent(true);
+    discardView.setMouseTransparent(true);
+    colorPicker.setVisible(true);
   }
 
   private void removeCard(int index) throws Exception {

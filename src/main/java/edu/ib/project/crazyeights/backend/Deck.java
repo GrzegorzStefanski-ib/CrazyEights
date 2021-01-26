@@ -48,6 +48,10 @@ public class Deck {
     else return lastCardOnDiscardPile;
   }
 
+  public Card getLastCardFromDiscardPileForGUI() {
+    return discardPileCards.get(discardPileCards.size() - 1);
+  }
+
   public void addCardToDiscardPile(Card card) {
     discardPileCards.add(card);
     if (actualColor != null) actualColor = null;
@@ -56,5 +60,9 @@ public class Deck {
   public void addCardToDiscardPile(Card card, byte newColor) {
     discardPileCards.add(card);
     actualColor = newColor;
+  }
+
+  public Byte getActualColor() {
+    return actualColor;
   }
 }
