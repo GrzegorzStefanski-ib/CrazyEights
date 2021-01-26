@@ -27,6 +27,13 @@ public class Player {
     } else throw new Exception("Player can't play this card now!");
   }
 
+  public void playCrazyEight(Deck deck, int cardIndex, String newColor) {
+    Card cardToPlay = playerCards.get(cardIndex);
+
+    playerCards.remove(cardToPlay);
+    deck.addCardToDiscardPile(cardToPlay, newColor);
+  }
+
   public void drawCard(Deck deck) {
     try {
       if (playerCards.size() < 10) playerCards.add(deck.getCardFromDeck());
@@ -41,6 +48,10 @@ public class Player {
 
   public boolean isCheater() {
     return cheater;
+  }
+
+  public Card getCard(int index) {
+    return playerCards.get(index);
   }
 
   public List<Card> getPlayerCards() {

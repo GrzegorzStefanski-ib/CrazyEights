@@ -9,14 +9,15 @@ public class Deck {
 
   private List<Card> deckCards;
   private List<Card> discardPileCards;
+  private String actualColor;
 
   public Deck(List<Card> deckCards, List<Card> discardPileCards) {
     this.deckCards = deckCards;
     this.discardPileCards = discardPileCards;
+    this.actualColor = null;
   }
 
   public Card getCardFromDeck() throws Exception {
-
     if (deckCards.size() == 0) {
 
       // TODO: Change the exception name before presentation.
@@ -41,10 +42,19 @@ public class Deck {
   }
 
   public Card getLastCardFromDiscardPile() {
-    return discardPileCards.get(discardPileCards.size() - 1);
+    Card lastCardOnDiscardPile = discardPileCards.get(discardPileCards.size() - 1);
+
+    if (actualColor != null) return new Card(actualColor, lastCardOnDiscardPile.getValue());
+    else return lastCardOnDiscardPile;
   }
 
   public void addCardToDiscardPile(Card card) {
     discardPileCards.add(card);
+    if (actualColor != null) actualColor = null;
+  }
+
+  public void addCardToDiscardPile(Card card, String newColor) {
+    discardPileCards.add(card);
+    actualColor = newColor;
   }
 }

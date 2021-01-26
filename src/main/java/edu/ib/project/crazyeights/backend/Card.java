@@ -12,7 +12,11 @@ public class Card {
   }
 
   public boolean compare(Card card) {
-    return color.equals(card.getColor()) || value.equals(card.getValue()) | value.equals("8");
+    return color.equals(card.getColor()) || value.equals(card.getValue());
+  }
+
+  public static boolean compareCrazyEight(Card card) {
+    return card.getValue().equals("8");
   }
 
   public String getColor() {

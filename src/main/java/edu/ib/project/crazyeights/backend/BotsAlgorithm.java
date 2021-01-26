@@ -3,6 +3,7 @@ package edu.ib.project.crazyeights.backend;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BotsAlgorithm {
 
@@ -16,17 +17,28 @@ public class BotsAlgorithm {
     List<Integer> indexesOfPlayableCards = getIndexesOfPlayableCards(bot);
     Deck deck = game.getDeck();
 
-    if (indexesOfPlayableCards.size() == 0)
-      bot.drawCard(deck);
-    else
-      bot.playCard(deck, indexesOfPlayableCards.get(0));
+    if (indexesOfPlayableCards.size() == 0) bot.drawCard(deck);
+    else {
+      int cardToPlayIndex = indexesOfPlayableCards.get(0);
+      Card cardToPlay = bot.getCard(cardToPlayIndex);
 
-//    while (indexesOfPlayableCards.size() == 0) {
-//      bot.drawCard(deck);
-//      indexesOfPlayableCards = getIndexesOfPlayableCards(bot);
-//    }
-//
-//    bot.playCard(deck, indexesOfPlayableCards.get(0));
+      if (Card.compareCrazyEight(cardToPlay)) {
+        String[] colors = {"H","S","D","C"};
+        Random random = new Random();
+        int colorIndex = random.nextInt(colors.length);
+
+        bot.playCrazyEight(deck, cardToPlayIndex, colors[colorIndex]);
+      }
+      else
+        bot.playCard(deck, cardToPlayIndex);
+    }
+
+    //    while (indexesOfPlayableCards.size() == 0) {
+    //      bot.drawCard(deck);
+    //      indexesOfPlayableCards = getIndexesOfPlayableCards(bot);
+    //    }
+    //
+    //    bot.playCard(deck, indexesOfPlayableCards.get(0));
   }
 
   private List<Integer> getIndexesOfPlayableCards(Player bot) {

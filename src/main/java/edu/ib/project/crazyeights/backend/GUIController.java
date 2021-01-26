@@ -127,23 +127,23 @@ public class GUIController {
 
     turnEnd(player);
 
-//    showDiscardPileLastCard();
-//    showPlayerCards();
-//
-//    if (player.isPlayersCardEmpty()) gameEnd(winPrompt);
-//    else {
-//      List<Player> bots = game.getBotsList();
-//      BotsAlgorithm botsAlgorithm = new BotsAlgorithm(game);
-//
-//      for (Player bot : bots) {
-//        botsAlgorithm.makeBotMove(bot);
-//
-//        showDiscardPileLastCard();
-//        showBotsCards();
-//
-//        if (bot.isPlayersCardEmpty()) gameEnd(defeatPrompt);
-//      }
-//    }
+    //    showDiscardPileLastCard();
+    //    showPlayerCards();
+    //
+    //    if (player.isPlayersCardEmpty()) gameEnd(winPrompt);
+    //    else {
+    //      List<Player> bots = game.getBotsList();
+    //      BotsAlgorithm botsAlgorithm = new BotsAlgorithm(game);
+    //
+    //      for (Player bot : bots) {
+    //        botsAlgorithm.makeBotMove(bot);
+    //
+    //        showDiscardPileLastCard();
+    //        showBotsCards();
+    //
+    //        if (bot.isPlayersCardEmpty()) gameEnd(defeatPrompt);
+    //      }
+    //    }
   }
 
   @FXML
@@ -161,7 +161,7 @@ public class GUIController {
     }
 
     turnEnd(player);
-//    showPlayerCards();
+    //    showPlayerCards();
   }
 
   @FXML
