@@ -49,22 +49,9 @@ public class GUIController {
 
   @FXML private AnchorPane cardsPane;
 
-  @FXML private Button card1Button;
-  @FXML private Button card2Button;
-  @FXML private Button card3Button;
-  @FXML private Button card4Button;
-  @FXML private Button card5Button;
-  @FXML private Button card6Button;
-  @FXML private Button card7Button;
-  @FXML private Button card8Button;
-  @FXML private Button card9Button;
-  @FXML private Button card10Button;
-
   @FXML private ImageView discardView;
 
   private Game game;
-  private List<Button> playerButtons;
-  private Button[] buttons;
   private ImageView[] cardImages;
   private Image[] cardImagesRaw;
 
@@ -73,6 +60,15 @@ public class GUIController {
   @FXML
   void startGameButtonOnClick(ActionEvent event) {
     String gameMode = gameModeSelector.getValue();
+
+    byte numberOfCards = 7;
+    if (gameMode != "2 players") {
+      numberOfCards = 5;
+    }
+
+    for (int i = 0; i < numberOfCards; i++) {
+      addCard();
+    }
 
     try {
       game = new Game(gameMode);
@@ -102,7 +98,8 @@ public class GUIController {
     Card cardToPlay = player.getCard(cardToPlayIndex);
     if (Card.compareCrazyEight(cardToPlay)) {
       Random random = new Random();
-      player.playCrazyEight(deck, cardToPlayIndex, (byte) random.nextInt(4));   // TODO: Color selection by player.
+      player.playCrazyEight(
+          deck, cardToPlayIndex, (byte) random.nextInt(4)); // TODO: Color selection by player.
     } else {
       try {
         player.playCard(deck, cardToPlayIndex);
@@ -122,6 +119,7 @@ public class GUIController {
     Player player = game.getPlayer();
 
     player.drawCard(deck);
+    addCard();
 
     if (player.isCheater()) {
       gameEnd(cheaterPrompt);
@@ -164,26 +162,6 @@ public class GUIController {
         : "fx:id=\"bot2ImageView\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert cardsPane != null
         : "fx:id=\"cardsPane\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert card1Button != null
-        : "fx:id=\"card1Button\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert card2Button != null
-        : "fx:id=\"card2Button\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert card3Button != null
-        : "fx:id=\"card3Button\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert card4Button != null
-        : "fx:id=\"card4Button\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert card5Button != null
-        : "fx:id=\"card5Button\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert card6Button != null
-        : "fx:id=\"card6Button\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert card7Button != null
-        : "fx:id=\"card7Button\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert card8Button != null
-        : "fx:id=\"card8Button\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert card9Button != null
-        : "fx:id=\"card9Button\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert card10Button != null
-        : "fx:id=\"card10Button\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert discardView != null
         : "fx:id=\"discardView\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
 
@@ -194,21 +172,6 @@ public class GUIController {
 
     initializeCardImages();
     generateCats();
-
-    buttons =
-        new Button[] {
-          card1Button,
-          card2Button,
-          card3Button,
-          card4Button,
-          card5Button,
-          card6Button,
-          card7Button,
-          card8Button,
-          card9Button,
-          card10Button,
-        };
-    playerButtons = Arrays.asList(buttons);
   }
 
   private void initializeCardImages() {
@@ -434,94 +397,40 @@ public class GUIController {
 
     cardImages =
         new ImageView[] {
-          c2V, c3V, c4V, c5V, c6V, c7V, c8V, c9V, c10V, cJV, cAV, cKV, cQV, d2V, d3V, d4V, d5V, d6V,
-          d7V, d8V, d9V, d10V, dJV, dAV, dKV, dQV, h2V, h3V, h4V, h5V, h6V, h7V, h8V, h9V, h10V,
-          hJV, hAV, hKV, hQV, s2V, s3V, s4V, s5V, s6V, s7V, s8V, s9V, s10V, sJV, sAV, sKV, sQV
+          h2V, h3V, h4V, h5V, h6V, h7V, h8V, h9V, h10V, hJV, hQV, hKV, hAV,
+          s2V, s3V, s4V, s5V, s6V, s7V, s8V, s9V, s10V, sJV, sQV, sKV, sAV,
+          d2V, d3V, d4V, d5V, d6V, d7V, d8V, d9V, d10V, dJV, dQV, dKV, dAV,
+          c2V, c3V, c4V, c5V, c6V, c7V, c8V, c9V, c10V, cJV, cQV, cKV, cAV
         };
     cardImagesRaw =
         new Image[] {
-          c2, c3, c4, c5, c6, c7, c8, c9, c10, cJ, cA, cK, cQ, d2, d3, d4, d5, d6, d7, d8, d9, d10,
-          dJ, dA, dK, dQ, h2, h3, h4, h5, h6, h7, h8, h9, h10, hJ, hA, hK, hQ, s2, s3, s4, s5, s6,
-          s7, s8, s9, s10, sJ, sA, sK, sQ
+          h2, h3, h4, h5, h6, h7, h8, h9, h10, hJ, hQ, hK, hA,
+          s2, s3, s4, s5, s6, s7, s8, s9, s10, sJ, sQ, sK, sA,
+          d2, d3, d4, d5, d6, d7, d8, d9, d10, dJ, dQ, dK, dA,
+          c2, c3, c4, c5, c6, c7, c8, c9, c10, cJ, cQ, cK, cA
         };
   }
 
-  private void generateCardImages() {
+  private void showPlayerCards() {
 
     Player player = game.getPlayer();
     List<Card> playerCards = player.getPlayerCards();
+
+    ObservableList<Node> cards = cardsPane.getChildren();
+    Button card;
+
+    byte color;
+    byte value;
+
     int i = 0;
     for (Card playerCard : playerCards) {
-      switch (playerCard.getColor()) {
-        case "C" -> {
-          switch (playerCard.getValue()) {
-            case "2" -> buttons[i].setGraphic(cardImages[0]);
-            case "3" -> buttons[i].setGraphic(cardImages[1]);
-            case "4" -> buttons[i].setGraphic(cardImages[2]);
-            case "5" -> buttons[i].setGraphic(cardImages[3]);
-            case "6" -> buttons[i].setGraphic(cardImages[4]);
-            case "7" -> buttons[i].setGraphic(cardImages[5]);
-            case "8" -> buttons[i].setGraphic(cardImages[6]);
-            case "9" -> buttons[i].setGraphic(cardImages[7]);
-            case "10" -> buttons[i].setGraphic(cardImages[8]);
-            case "J" -> buttons[i].setGraphic(cardImages[9]);
-            case "A" -> buttons[i].setGraphic(cardImages[10]);
-            case "K" -> buttons[i].setGraphic(cardImages[11]);
-            case "Q" -> buttons[i].setGraphic(cardImages[12]);
-          }
-        }
-        case "D" -> {
-          switch (playerCard.getValue()) {
-            case "2" -> buttons[i].setGraphic(cardImages[13]);
-            case "3" -> buttons[i].setGraphic(cardImages[14]);
-            case "4" -> buttons[i].setGraphic(cardImages[15]);
-            case "5" -> buttons[i].setGraphic(cardImages[16]);
-            case "6" -> buttons[i].setGraphic(cardImages[17]);
-            case "7" -> buttons[i].setGraphic(cardImages[18]);
-            case "8" -> buttons[i].setGraphic(cardImages[19]);
-            case "9" -> buttons[i].setGraphic(cardImages[20]);
-            case "10" -> buttons[i].setGraphic(cardImages[21]);
-            case "J" -> buttons[i].setGraphic(cardImages[22]);
-            case "A" -> buttons[i].setGraphic(cardImages[23]);
-            case "K" -> buttons[i].setGraphic(cardImages[24]);
-            case "Q" -> buttons[i].setGraphic(cardImages[25]);
-          }
-        }
-        case "H" -> {
-          switch (playerCard.getValue()) {
-            case "2" -> buttons[i].setGraphic(cardImages[26]);
-            case "3" -> buttons[i].setGraphic(cardImages[27]);
-            case "4" -> buttons[i].setGraphic(cardImages[28]);
-            case "5" -> buttons[i].setGraphic(cardImages[29]);
-            case "6" -> buttons[i].setGraphic(cardImages[30]);
-            case "7" -> buttons[i].setGraphic(cardImages[31]);
-            case "8" -> buttons[i].setGraphic(cardImages[32]);
-            case "9" -> buttons[i].setGraphic(cardImages[33]);
-            case "10" -> buttons[i].setGraphic(cardImages[34]);
-            case "J" -> buttons[i].setGraphic(cardImages[35]);
-            case "A" -> buttons[i].setGraphic(cardImages[36]);
-            case "K" -> buttons[i].setGraphic(cardImages[37]);
-            case "Q" -> buttons[i].setGraphic(cardImages[38]);
-          }
-        }
-        case "S" -> {
-          switch (playerCard.getValue()) {
-            case "2" -> buttons[i].setGraphic(cardImages[39]);
-            case "3" -> buttons[i].setGraphic(cardImages[40]);
-            case "4" -> buttons[i].setGraphic(cardImages[41]);
-            case "5" -> buttons[i].setGraphic(cardImages[42]);
-            case "6" -> buttons[i].setGraphic(cardImages[43]);
-            case "7" -> buttons[i].setGraphic(cardImages[44]);
-            case "8" -> buttons[i].setGraphic(cardImages[45]);
-            case "9" -> buttons[i].setGraphic(cardImages[46]);
-            case "10" -> buttons[i].setGraphic(cardImages[47]);
-            case "J" -> buttons[i].setGraphic(cardImages[48]);
-            case "A" -> buttons[i].setGraphic(cardImages[49]);
-            case "K" -> buttons[i].setGraphic(cardImages[50]);
-            case "Q" -> buttons[i].setGraphic(cardImages[51]);
-          }
-        }
-      }
+      card = (Button) cards.get(i);
+
+      color = playerCard.getColor();
+      value = playerCard.getValue();
+
+      card.setGraphic(cardImages[color * 13 + value]);
+
       i++;
     }
   }
@@ -555,87 +464,10 @@ public class GUIController {
     Deck deck = game.getDeck();
     Card discardPileLastCard = deck.getLastCardFromDiscardPile();
 
-    switch (discardPileLastCard.getColor()) {
-      case "C" -> {
-        switch (discardPileLastCard.getValue()) {
-          case "2" -> discardView.setImage(cardImagesRaw[0]);
-          case "3" -> discardView.setImage(cardImagesRaw[1]);
-          case "4" -> discardView.setImage(cardImagesRaw[2]);
-          case "5" -> discardView.setImage(cardImagesRaw[3]);
-          case "6" -> discardView.setImage(cardImagesRaw[4]);
-          case "7" -> discardView.setImage(cardImagesRaw[5]);
-          case "8" -> discardView.setImage(cardImagesRaw[6]);
-          case "9" -> discardView.setImage(cardImagesRaw[7]);
-          case "10" -> discardView.setImage(cardImagesRaw[8]);
-          case "J" -> discardView.setImage(cardImagesRaw[9]);
-          case "A" -> discardView.setImage(cardImagesRaw[10]);
-          case "K" -> discardView.setImage(cardImagesRaw[11]);
-          case "Q" -> discardView.setImage(cardImagesRaw[12]);
-        }
-      }
-      case "D" -> {
-        switch (discardPileLastCard.getValue()) {
-          case "2" -> discardView.setImage(cardImagesRaw[13]);
-          case "3" -> discardView.setImage(cardImagesRaw[14]);
-          case "4" -> discardView.setImage(cardImagesRaw[15]);
-          case "5" -> discardView.setImage(cardImagesRaw[16]);
-          case "6" -> discardView.setImage(cardImagesRaw[17]);
-          case "7" -> discardView.setImage(cardImagesRaw[18]);
-          case "8" -> discardView.setImage(cardImagesRaw[19]);
-          case "9" -> discardView.setImage(cardImagesRaw[20]);
-          case "10" -> discardView.setImage(cardImagesRaw[21]);
-          case "J" -> discardView.setImage(cardImagesRaw[22]);
-          case "A" -> discardView.setImage(cardImagesRaw[23]);
-          case "K" -> discardView.setImage(cardImagesRaw[24]);
-          case "Q" -> discardView.setImage(cardImagesRaw[25]);
-        }
-      }
-      case "H" -> {
-        switch (discardPileLastCard.getValue()) {
-          case "2" -> discardView.setImage(cardImagesRaw[26]);
-          case "3" -> discardView.setImage(cardImagesRaw[27]);
-          case "4" -> discardView.setImage(cardImagesRaw[28]);
-          case "5" -> discardView.setImage(cardImagesRaw[29]);
-          case "6" -> discardView.setImage(cardImagesRaw[30]);
-          case "7" -> discardView.setImage(cardImagesRaw[31]);
-          case "8" -> discardView.setImage(cardImagesRaw[32]);
-          case "9" -> discardView.setImage(cardImagesRaw[33]);
-          case "10" -> discardView.setImage(cardImagesRaw[34]);
-          case "J" -> discardView.setImage(cardImagesRaw[35]);
-          case "A" -> discardView.setImage(cardImagesRaw[36]);
-          case "K" -> discardView.setImage(cardImagesRaw[37]);
-          case "Q" -> discardView.setImage(cardImagesRaw[38]);
-        }
-      }
-      case "S" -> {
-        switch (discardPileLastCard.getValue()) {
-          case "2" -> discardView.setImage(cardImagesRaw[39]);
-          case "3" -> discardView.setImage(cardImagesRaw[40]);
-          case "4" -> discardView.setImage(cardImagesRaw[41]);
-          case "5" -> discardView.setImage(cardImagesRaw[42]);
-          case "6" -> discardView.setImage(cardImagesRaw[43]);
-          case "7" -> discardView.setImage(cardImagesRaw[44]);
-          case "8" -> discardView.setImage(cardImagesRaw[45]);
-          case "9" -> discardView.setImage(cardImagesRaw[46]);
-          case "10" -> discardView.setImage(cardImagesRaw[47]);
-          case "J" -> discardView.setImage(cardImagesRaw[48]);
-          case "A" -> discardView.setImage(cardImagesRaw[49]);
-          case "K" -> discardView.setImage(cardImagesRaw[50]);
-          case "Q" -> discardView.setImage(cardImagesRaw[51]);
-        }
-      }
-    }
-  }
+    byte color = discardPileLastCard.getColor();
+    byte value = discardPileLastCard.getValue();
 
-  private void showPlayerCards() {
-    Player player = game.getPlayer();
-    List<Card> playerCards = player.getPlayerCards();
-
-    for (Button playerButton : playerButtons) playerButton.setVisible(false);
-    for (int i = 0; i < playerCards.size(); i++) {
-      buttons[i].setVisible(true);
-    }
-    generateCardImages();
+    discardView.setImage(cardImagesRaw[color * 13 + value]);
   }
 
   private void generateCats() {
@@ -667,6 +499,42 @@ public class GUIController {
     button.setPrefWidth(65);
     button.setPrefHeight(116);
     button.setLayoutX(cardsPane.getChildren().size() * 70);
+
+    button.setOnAction(
+        event -> {
+          int cardToPlayIndex = -1;
+
+          ObservableList<Node> cards = cardsPane.getChildren();
+          for (int i = 0; i < cards.size(); i++) {
+            if (button.equals(cards.get(i))) cardToPlayIndex = i;
+          }
+
+          Deck deck = game.getDeck();
+          Player player = game.getPlayer();
+
+          Card cardToPlay = player.getCard(cardToPlayIndex);
+          if (Card.compareCrazyEight(cardToPlay)) {
+            Random random = new Random();
+            player.playCrazyEight(
+                deck,
+                cardToPlayIndex,
+                (byte) random.nextInt(4)); // TODO: Color selection by player.
+          } else {
+            try {
+              player.playCard(deck, cardToPlayIndex);
+              removeCard(cardToPlayIndex);
+            } catch (Exception e) {
+              e.printStackTrace();
+              return;
+            }
+          }
+
+          try {
+            turnEnd(player);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        });
     cardsPane.getChildren().add(button);
   }
 

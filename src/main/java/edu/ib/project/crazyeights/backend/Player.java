@@ -36,7 +36,7 @@ public class Player {
 
   public void drawCard(Deck deck) {
     try {
-      if (playerCards.size() < 10) playerCards.add(deck.getCardFromDeck());
+      playerCards.add(deck.getCardFromDeck());
     } catch (Exception e) {
       cheater = true;
     }

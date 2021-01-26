@@ -6,6 +6,11 @@ public class Card {
   private final byte color;
   private final byte value;
 
+  private final String[] colorEncoding = {"H", "S", "D", "C"};
+  private final String[] valueEncoding = {
+    "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"
+  };
+
   public Card(byte color, byte value) {
     this.color = color;
     this.value = value;
@@ -16,7 +21,7 @@ public class Card {
   }
 
   public static boolean compareCrazyEight(Card card) {
-    return card.getValue() == 8;
+    return card.getValue() == 6; // 6 is secretly 8 but shhh...
   }
 
   public byte getColor() {
@@ -29,6 +34,6 @@ public class Card {
 
   @Override
   public String toString() {
-    return "Card{" + "color=" + color + ", value=" + value + '}';
+    return "Card{" + "color=" + colorEncoding[color] + ", value=" + valueEncoding[value] + '}';
   }
 }

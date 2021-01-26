@@ -41,7 +41,7 @@
       <Pane fx:id="gameScreen" prefHeight="720.0" prefWidth="1280.0" visible="false">
          <children>
             <Button fx:id="drawCardButton" layoutX="474.0" layoutY="328.0" mnemonicParsing="false" onAction="#drawCardButtonOnClick" prefHeight="116.0" prefWidth="65.0" />
-            <ListView fx:id="bot1CardList" layoutX="881.0" layoutY="325.0" prefHeight="100.0" prefWidth="150.0" />
+            <ListView fx:id="bot1CardList" layoutX="881.0" layoutY="150.0" prefHeight="300.0" prefWidth="150.0" />
             <ListView fx:id="bot2CardList" layoutX="531.0" layoutY="173.0" prefHeight="100.0" prefWidth="150.0" />
             <ListView fx:id="bot3CardList" layoutX="249.0" layoutY="325.0" prefHeight="100.0" prefWidth="150.0" />
             <Label fx:id="winPrompt" alignment="CENTER" prefHeight="400.0" prefWidth="600.0" text="FATALITY" textAlignment="CENTER" visible="false">
@@ -65,60 +65,7 @@
             <ImageView fx:id="bot2ImageView" fitHeight="150.0" fitWidth="200.0" layoutX="506.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
             <ScrollPane fitToHeight="true" layoutX="152.0" layoutY="500.0" prefHeight="110.0" prefWidth="750.0">
               <content>
-                <AnchorPane fx:id="cardsPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0">
-                     <children>
-                        <Button fx:id="card1Button" mnemonicParsing="false" onAction="#playCardButtonOnClick" prefHeight="116.0" prefWidth="65.0">
-                           <font>
-                              <Font size="6.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="card2Button" layoutX="70.0" mnemonicParsing="false" onAction="#playCardButtonOnClick" prefHeight="116.0" prefWidth="65.0">
-                           <font>
-                              <Font size="6.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="card3Button" layoutX="140.0" mnemonicParsing="false" onAction="#playCardButtonOnClick" prefHeight="116.0" prefWidth="65.0">
-                           <font>
-                              <Font size="6.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="card4Button" layoutX="210.0" mnemonicParsing="false" onAction="#playCardButtonOnClick" prefHeight="116.0" prefWidth="65.0">
-                           <font>
-                              <Font size="6.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="card5Button" layoutX="280.0" mnemonicParsing="false" onAction="#playCardButtonOnClick" prefHeight="116.0" prefWidth="65.0">
-                           <font>
-                              <Font size="6.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="card6Button" layoutX="350.0" mnemonicParsing="false" onAction="#playCardButtonOnClick" prefHeight="116.0" prefWidth="65.0">
-                           <font>
-                              <Font size="6.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="card7Button" layoutX="420.0" mnemonicParsing="false" onAction="#playCardButtonOnClick" prefHeight="116.0" prefWidth="65.0">
-                           <font>
-                              <Font size="6.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="card8Button" layoutX="490.0" mnemonicParsing="false" onAction="#playCardButtonOnClick" prefHeight="116.0" prefWidth="65.0">
-                           <font>
-                              <Font size="6.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="card9Button" layoutX="560.0" mnemonicParsing="false" onAction="#playCardButtonOnClick" prefHeight="116.0" prefWidth="65.0">
-                           <font>
-                              <Font size="6.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="card10Button" layoutX="630.0" mnemonicParsing="false" onAction="#playCardButtonOnClick" prefHeight="116.0" prefWidth="65.0">
-                           <font>
-                              <Font size="6.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </AnchorPane>
+                <AnchorPane fx:id="cardsPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" />
               </content>
             </ScrollPane>
             <ImageView fx:id="discardView" fitHeight="116.0" fitWidth="65.0" layoutX="608.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" />
