@@ -19,7 +19,7 @@ public class Main extends Application {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/devCrazyEightsGUI.fxml"));
     Parent root = loader.load();
 
-    Scene scene = new Scene(root, 600, 400);
+    Scene scene = new Scene(root, 1280, 720);
     GUIController controller = loader.getController();
 
     stage.setScene(scene);

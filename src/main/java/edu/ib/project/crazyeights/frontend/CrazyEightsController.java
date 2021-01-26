@@ -2,9 +2,11 @@
 package edu.ib.project.crazyeights.frontend;
 
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -109,5 +111,21 @@ public class CrazyEightsController {
         : "fx:id=\"botImageView\" was not injected: check your FXML file 'crazyEights.fxml'.";
     assert playerImageView != null
         : "fx:id=\"playerImageView\" was not injected: check your FXML file 'crazyEights.fxml'.";
+
+    generateCats();
+  }
+
+  private void generateCats() {
+
+    Image[] catPhotos = {
+      new Image("/cats/cat1.jpg"),
+      new Image("/cats/cat2.jpg"),
+      new Image("/cats/cat3.jpg"),
+      new Image("/cats/cat3.jpg"),
+      new Image("/cats/cat4.jpg")
+    };
+    Random random = new Random();
+    int r = random.nextInt(catPhotos.length);
+    botImageView.setImage(catPhotos[r]);
   }
 }
