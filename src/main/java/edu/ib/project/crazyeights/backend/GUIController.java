@@ -12,12 +12,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 public class GUIController {
 
@@ -34,10 +34,6 @@ public class GUIController {
   @FXML private Pane gameScreen;
 
   @FXML private Button drawCardButton;
-
-  @FXML private ListView<String> bot1CardList;
-  @FXML private ListView<String> bot2CardList;
-  @FXML private ListView<String> bot3CardList;
 
   @FXML private Label winPrompt;
   @FXML private Label defeatPrompt;
@@ -64,6 +60,17 @@ public class GUIController {
   @FXML private Button clubsButton;
 
   @FXML private Label newColorLabel;
+
+  @FXML private ImageView bot3EmptyCard;
+
+  @FXML private ImageView bot2EmptyCard;
+
+  @FXML private ImageView bot1EmptyCard;
+  @FXML private Text bot3CardCount;
+
+  @FXML private Text bot2CardCount;
+
+  @FXML private Text bot1CardCount;
 
   private Game game;
   private ImageView[] cardImages;
@@ -102,7 +109,7 @@ public class GUIController {
     String gameMode = gameModeSelector.getValue();
 
     byte numberOfCards = 7;
-    if (gameMode != "2 players") {
+    if (!gameMode.equals("2 players")) {
       numberOfCards = 5;
     }
 
@@ -121,6 +128,7 @@ public class GUIController {
     gameScreen.setVisible(true);
 
     displayAllCardsInGame();
+    generateCats();
   }
 
   @FXML
@@ -150,12 +158,6 @@ public class GUIController {
         : "fx:id=\"gameScreen\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert drawCardButton != null
         : "fx:id=\"drawCardButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert bot1CardList != null
-        : "fx:id=\"bot1CardList\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert bot2CardList != null
-        : "fx:id=\"bot2CardList\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert bot3CardList != null
-        : "fx:id=\"bot3CardList\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert winPrompt != null
         : "fx:id=\"winPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert defeatPrompt != null
@@ -186,6 +188,18 @@ public class GUIController {
         : "fx:id=\"clubsButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert newColorLabel != null
         : "fx:id=\"newColorLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot3EmptyCard != null
+        : "fx:id=\"bot3EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot2EmptyCard != null
+        : "fx:id=\"bot2EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot1EmptyCard != null
+        : "fx:id=\"bot1EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot3CardCount != null
+        : "fx:id=\"bot3CardCount\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot2CardCount != null
+        : "fx:id=\"bot2CardCount\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot1CardCount != null
+        : "fx:id=\"bot1CardCount\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
 
     gameModeSelector.getItems().add("2 players");
     gameModeSelector.getItems().add("3 players");
@@ -193,7 +207,6 @@ public class GUIController {
     gameModeSelector.setValue("2 players");
 
     initializeCardImages();
-    generateCats();
   }
 
   private void initializeCardImages() {
@@ -217,10 +230,12 @@ public class GUIController {
 
     Image cardBack = new Image("/cards/5.png");
     ImageView cardBackView = new ImageView(cardBack);
-    cardBackView.setFitHeight(116);
+    cardBackView.setFitHeight(136);
+    cardBackView.setFitWidth(100);
     cardBackView.setPreserveRatio(true);
 
     discardView.setPreserveRatio(true);
+    discardView.setFitHeight(136);
     drawCardButton.setGraphic(cardBackView);
   }
 
@@ -288,7 +303,7 @@ public class GUIController {
                 "Unexpected value: " + deck.getActualColor());
           };
 
-      newColorLabel.setText("Actual color is " + actualColor);
+      newColorLabel.setText("Current color is " + actualColor);
     } else newColorLabel.setText("");
 
     byte color = discardPileLastCard.getColor();
@@ -299,26 +314,46 @@ public class GUIController {
 
   private void generateCats() {
 
+    int rOld1 = -1;
+    int rOld2;
+    Image cardBack = new Image("/cards/5.png");
+    List<Player> bots = game.getBotsList();
+
     Image[] catPhotos = {
       new Image("/cats/cat1.jpg"),
       new Image("/cats/cat2.jpg"),
       new Image("/cats/cat3.jpg"),
       new Image("/cats/cat4.jpg"),
-      new Image("/cats/cat5.jpg")
+      new Image("/cats/cat5.jpg"),
+      new Image("/cats/cat6.jpg"),
+      new Image("/cats/cat7.jpg")
     };
     Random random = new Random();
     int r = random.nextInt(catPhotos.length);
     bot1ImageView.setImage(catPhotos[r]);
-    int rOld1 = r;
-    while (r == rOld1) {
-      r = random.nextInt(catPhotos.length);
+    bot1EmptyCard.setImage(cardBack);
+    bot1EmptyCard.setFitHeight(136);
+    bot1EmptyCard.setPreserveRatio(true);
+    if (bots.size() > 1) {
+      rOld1 = r;
+      while (r == rOld1) {
+        r = random.nextInt(catPhotos.length);
+      }
+      bot2ImageView.setImage(catPhotos[r]);
+      bot2EmptyCard.setImage(cardBack);
+      bot2EmptyCard.setFitHeight(136);
+      bot2EmptyCard.setPreserveRatio(true);
     }
-    bot2ImageView.setImage(catPhotos[r]);
-    int rOld2 = r;
-    while (r == rOld1 || r == rOld2) {
-      r = random.nextInt(catPhotos.length);
+    if (bots.size() > 2) {
+      rOld2 = r;
+      while (r == rOld1 || r == rOld2) {
+        r = random.nextInt(catPhotos.length);
+      }
+      bot3ImageView.setImage(catPhotos[r]);
+      bot3EmptyCard.setImage(cardBack);
+      bot3EmptyCard.setFitHeight(136);
+      bot3EmptyCard.setPreserveRatio(true);
     }
-    bot3ImageView.setImage(catPhotos[r]);
   }
 
   private void addCard() {
@@ -382,24 +417,12 @@ public class GUIController {
   // For dev tests
   private void showBotsCards() {
     List<Player> bots = game.getBotsList();
+    List<Text> botCardCounts = Arrays.asList(bot1CardCount, bot2CardCount, bot3CardCount);
 
     for (int i = 0; i < bots.size(); i++) {
       Player bot = bots.get(i);
       List<Card> botCards = bot.getPlayerCards();
-
-      ListView<String> botCardList =
-          switch (i) {
-            case 0 -> bot1CardList;
-            case 1 -> bot2CardList;
-            case 2 -> bot3CardList;
-            default -> null;
-          };
-
-      assert botCardList != null;
-      botCardList.getItems().clear();
-      for (Card botCard : botCards) {
-        botCardList.getItems().add(botCard.toString());
-      }
+      botCardCounts.get(i).setText(String.valueOf(botCards.size()));
     }
   }
 
