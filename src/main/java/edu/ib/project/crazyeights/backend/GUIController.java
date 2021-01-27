@@ -124,7 +124,8 @@ public class GUIController {
     }
 
     menuScreen.setVisible(false);
-    drawCardButton.setDisable(false);
+    drawCardButton.setMouseTransparent(false);
+    cardsPane.setMouseTransparent(false);
     gameScreen.setVisible(true);
 
     displayAllCardsInGame();
@@ -213,16 +214,12 @@ public class GUIController {
     File dir = new File("src/main/resources/cards/");
     File[] files = dir.listFiles();
 
-    //    for (File file : files) {
-    //      System.out.println(file);
-    //    }
-
     cardImagesRaw = new Image[52];
     cardImages = new ImageView[52];
 
     for (int i = 0; i < Objects.requireNonNull(files).length - 1; i++) {
-      System.out.println(files[i].toString().substring(18));
       cardImagesRaw[i] = new Image(files[i].toString().substring(18));
+
       cardImages[i] = new ImageView(cardImagesRaw[i]);
       cardImages[i].setFitWidth(116);
       cardImages[i].setPreserveRatio(true);
@@ -264,7 +261,10 @@ public class GUIController {
   }
 
   private void gameEnd(Label label) {
-    drawCardButton.setDisable(true);
+    drawCardButton.setMouseTransparent(true);
+    cardsPane.setMouseTransparent(true);
+
+    cardsPane.getChildren().clear();
 
     Timer timer = new Timer();
     TimerTask timerTask =
