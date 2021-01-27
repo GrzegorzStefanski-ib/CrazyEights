@@ -11,10 +11,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
@@ -34,15 +34,15 @@ public class GUIController {
 
   @FXML private Button drawCardButton;
 
-  @FXML private Label winPrompt;
-  @FXML private Label defeatPrompt;
-  @FXML private Label cheaterPrompt;
+  @FXML private Text winPrompt;
+  @FXML private Text defeatPrompt;
+  @FXML private Text cheaterPrompt;
 
-  @FXML private Label actualColorLabel;
+  @FXML private Text actualColorLabel;
 
-  @FXML private ImageView bot1ImageView;
-  @FXML private ImageView bot3ImageView;
-  @FXML private ImageView bot2ImageView;
+  @FXML private Circle bot1ImageCircle;
+  @FXML private Circle bot3ImageCircle;
+  @FXML private Circle bot2ImageCircle;
 
   @FXML private AnchorPane cardsPane;
 
@@ -58,7 +58,7 @@ public class GUIController {
 
   @FXML private Button clubsButton;
 
-  @FXML private Label newColorLabel;
+  @FXML private Text newColorLabel;
 
   @FXML private ImageView bot3EmptyCard;
 
@@ -122,7 +122,6 @@ public class GUIController {
       e.printStackTrace();
     }
 
-    menuScreen.setVisible(false);
     drawCardButton.setMouseTransparent(false);
     cardsPane.setMouseTransparent(false);
     gameScreen.setVisible(true);
@@ -166,12 +165,12 @@ public class GUIController {
         : "fx:id=\"cheaterPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert actualColorLabel != null
         : "fx:id=\"actualColorLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert bot1ImageView != null
-        : "fx:id=\"bot1ImageView\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert bot3ImageView != null
-        : "fx:id=\"bot3ImageView\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert bot2ImageView != null
-        : "fx:id=\"bot2ImageView\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot1ImageCircle != null
+        : "fx:id=\"bot1ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot3ImageCircle != null
+        : "fx:id=\"bot3ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot2ImageCircle != null
+        : "fx:id=\"bot2ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert cardsPane != null
         : "fx:id=\"cardsPane\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert discardView != null
@@ -223,7 +222,7 @@ public class GUIController {
             BackgroundRepeat.NO_REPEAT,
             BackgroundPosition.DEFAULT,
             BackgroundSize.DEFAULT);
-    menuScreen.setBackground(new Background(myBI));
+    menuScreen.setBackground(new Background(myBI2));
   }
 
   private void initializeCardImages() {
@@ -247,8 +246,6 @@ public class GUIController {
     cardBackView.setFitWidth(100);
     cardBackView.setPreserveRatio(true);
 
-    discardView.setPreserveRatio(true);
-    discardView.setFitHeight(136);
     drawCardButton.setGraphic(cardBackView);
   }
 
@@ -276,7 +273,7 @@ public class GUIController {
     }
   }
 
-  private void gameEnd(Label label) {
+  private void gameEnd(Text label) {
     drawCardButton.setMouseTransparent(true);
     cardsPane.setMouseTransparent(true);
 
@@ -325,7 +322,9 @@ public class GUIController {
     byte color = discardPileLastCard.getColor();
     byte value = discardPileLastCard.getValue();
 
+    Random random = new Random();
     discardView.setImage(cardImagesRaw[color * 13 + value]);
+    discardView.setRotate(random.nextInt(50) - 25);
   }
 
   private void generateCats() {
@@ -336,16 +335,17 @@ public class GUIController {
     List<Player> bots = game.getBotsList();
 
     Image[] catPhotos = {
-      new Image("/cats/cat4.jpg"),
-      new Image("/cats/cat5.jpg"),
-      new Image("/cats/cat6.jpg"),
-      new Image("/cats/cat7.jpg"),
-      new Image("/cats/cat3.gif"),
-      new Image("/cats/cat2.gif")
+      new Image("/cats/cat4.jpg", false),
+      new Image("/cats/cat5.jpg", false),
+      new Image("/cats/cat6.jpg", false),
+      new Image("/cats/cat7.jpg", false),
+      new Image("/cats/cat3.gif", false),
+      new Image("/cats/cat2.gif", false)
     };
     Random random = new Random();
     int r = random.nextInt(catPhotos.length);
-    bot1ImageView.setImage(catPhotos[r]);
+    bot1ImageCircle.setFill(new ImagePattern(catPhotos[r]));
+    bot1ImageCircle.setVisible(true);
     bot1EmptyCard.setImage(cardBack);
     bot1EmptyCard.setFitHeight(136);
     bot1EmptyCard.setPreserveRatio(true);
@@ -354,7 +354,8 @@ public class GUIController {
       while (r == rOld1) {
         r = random.nextInt(catPhotos.length);
       }
-      bot2ImageView.setImage(catPhotos[r]);
+      bot2ImageCircle.setFill(new ImagePattern(catPhotos[r]));
+      bot2ImageCircle.setVisible(true);
       bot2EmptyCard.setImage(cardBack);
       bot2EmptyCard.setFitHeight(136);
       bot2EmptyCard.setPreserveRatio(true);
@@ -364,7 +365,8 @@ public class GUIController {
       while (r == rOld1 || r == rOld2) {
         r = random.nextInt(catPhotos.length);
       }
-      bot3ImageView.setImage(catPhotos[r]);
+      bot3ImageCircle.setFill(new ImagePattern(catPhotos[r]));
+      bot3ImageCircle.setVisible(true);
       bot3EmptyCard.setImage(cardBack);
       bot3EmptyCard.setFitHeight(136);
       bot3EmptyCard.setPreserveRatio(true);

@@ -37,11 +37,11 @@ public class BotsAlgorithm {
 
     for (int i = 0; i < botCards.size(); i++) {
       Card botCardToPlay = botCards.get(i);
-      System.out.println(botCardToPlay.toString());
-      System.out.println(lastCardOnDiscardPile.toString());
-      System.out.println(botCardToPlay.compare(lastCardOnDiscardPile));
-      System.out.println(Card.compareCrazyEight(botCardToPlay));
-      System.out.println(i);
+      //      System.out.println(botCardToPlay.toString());
+      //      System.out.println(lastCardOnDiscardPile.toString());
+      //      System.out.println(botCardToPlay.compare(lastCardOnDiscardPile));
+      //      System.out.println(Card.compareCrazyEight(botCardToPlay));
+      //      System.out.println(i);
 
       if (botCardToPlay.compare(lastCardOnDiscardPile) || Card.compareCrazyEight(botCardToPlay)) {
         indexesOfPlayableCards.add(i);

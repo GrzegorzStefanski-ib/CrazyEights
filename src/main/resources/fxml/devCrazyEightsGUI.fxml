@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,6 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -44,22 +44,6 @@
       </Pane>
       <Pane fx:id="gameScreen" prefHeight="720.0" prefWidth="1280.0" visible="false">
          <children>
-            <Label fx:id="winPrompt" alignment="CENTER" prefHeight="400.0" prefWidth="600.0" text="FATALITY" textAlignment="CENTER" visible="false">
-               <font>
-                  <Font name="Roboto" size="96.0" />
-               </font>
-            </Label>
-            <Label fx:id="defeatPrompt" alignment="CENTER" prefHeight="410.0" prefWidth="610.0" text="DEFEAT" textAlignment="CENTER" visible="false">
-               <font>
-                  <Font name="Roboto" size="96.0" />
-               </font>
-            </Label>
-            <Label fx:id="cheaterPrompt" alignment="CENTER" layoutX="-1.0" layoutY="-1.0" prefHeight="400.0" prefWidth="600.0" text="CHEATER :(" textAlignment="CENTER" visible="false">
-               <font>
-                  <Font name="Roboto" size="96.0" />
-               </font>
-            </Label>
-            <Label fx:id="actualColorLabel" layoutX="285.0" layoutY="142.0" visible="false" />
             <ScrollPane fitToHeight="true" layoutX="225.0" layoutY="470.0" prefHeight="110.0" prefWidth="750.0">
               <content>
                 <AnchorPane fx:id="cardsPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" />
@@ -81,13 +65,13 @@
                   <Button fx:id="clubsButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#colorPickOnClick" text="Clubs" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-            <Label fx:id="newColorLabel" layoutX="599.0" layoutY="264.0" />
             <HBox alignment="CENTER_LEFT" layoutX="62.0" layoutY="253.0" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ImageView fx:id="bot3ImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <Circle fx:id="bot3ImageCircle" fill="WHITE" radius="87.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" visible="false">
                      <HBox.margin>
-                        <Insets right="8.0" />
-                     </HBox.margin></ImageView>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </Circle>
                   <ImageView fx:id="bot3EmptyCard" fitHeight="130.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
                   <Text fx:id="bot3CardCount" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="2.0">
                      <font>
@@ -108,18 +92,20 @@
                         <Insets right="10.0" />
                      </HBox.margin></Text>
                   <ImageView fx:id="bot2EmptyCard" fitHeight="130.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="bot2ImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <Circle fx:id="bot2ImageCircle" fill="WHITE" radius="87.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" visible="false">
                      <HBox.margin>
-                        <Insets left="8.0" />
-                     </HBox.margin></ImageView>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Circle>
                </children>
             </HBox>
             <HBox alignment="CENTER_RIGHT" layoutX="474.0" layoutY="63.0" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ImageView fx:id="bot1ImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <Circle fx:id="bot1ImageCircle" fill="WHITE" radius="87.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" visible="false">
                      <HBox.margin>
-                        <Insets right="8.0" />
-                     </HBox.margin></ImageView>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </Circle>
                   <ImageView fx:id="bot1EmptyCard" fitHeight="130.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
                   <Text fx:id="bot1CardCount" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="2.0">
                      <font>
@@ -130,16 +116,33 @@
                      </HBox.margin></Text>
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="499.0" layoutY="292.0" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button fx:id="drawCardButton" mnemonicParsing="false" onAction="#drawCardButtonOnClick" prefHeight="116.0" prefWidth="65.0">
-                     <HBox.margin>
-                        <Insets right="30.0" />
-                     </HBox.margin>
-                  </Button>
-                  <ImageView fx:id="discardView" fitHeight="136.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </HBox>
+            <Button fx:id="drawCardButton" layoutX="498.20001220703125" layoutY="302.3999938964844" mnemonicParsing="false" onAction="#drawCardButtonOnClick" prefHeight="116.0" prefWidth="65.0" />
+            <ImageView fx:id="discardView" fitHeight="140.0" fitWidth="120.0" layoutX="650.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true" rotate="23.6" />
+            <Text fx:id="newColorLabel" fill="RED" layoutX="75.0" layoutY="95.0" stroke="WHITE" strokeType="OUTSIDE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="cheaterPrompt" fill="RED" layoutX="76.0" layoutY="186.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="3.0" text="CHEATER!" visible="false">
+               <font>
+                  <Font size="54.0" />
+               </font>
+            </Text>
+            <Text fx:id="actualColorLabel" fill="RED" layoutX="75.0" layoutY="95.0" stroke="WHITE" strokeType="OUTSIDE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="winPrompt" fill="RED" layoutX="48.0" layoutY="182.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="3.0" text="VICTORY!" visible="false">
+               <font>
+                  <Font size="54.0" />
+               </font>
+            </Text>
+            <Text fx:id="defeatPrompt" fill="RED" layoutX="63.0" layoutY="185.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="3.0" text="DEFEAT!" visible="false">
+               <font>
+                  <Font size="54.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>
