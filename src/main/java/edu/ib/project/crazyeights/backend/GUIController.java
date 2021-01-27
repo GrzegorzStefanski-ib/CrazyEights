@@ -14,9 +14,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 public class GUIController {
@@ -208,6 +207,23 @@ public class GUIController {
     gameModeSelector.setValue("2 players");
 
     initializeCardImages();
+    BackgroundImage myBI =
+        new BackgroundImage(
+            new Image("/misc/bg.png", 1280, 720, false, true),
+            BackgroundRepeat.REPEAT,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundPosition.DEFAULT,
+            BackgroundSize.DEFAULT);
+    gameScreen.setBackground(new Background(myBI));
+
+    BackgroundImage myBI2 =
+        new BackgroundImage(
+            new Image("/misc/bg2.png", 1280, 720, false, true),
+            BackgroundRepeat.REPEAT,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundPosition.DEFAULT,
+            BackgroundSize.DEFAULT);
+    menuScreen.setBackground(new Background(myBI));
   }
 
   private void initializeCardImages() {
@@ -320,13 +336,12 @@ public class GUIController {
     List<Player> bots = game.getBotsList();
 
     Image[] catPhotos = {
-      new Image("/cats/cat1.jpg"),
-      new Image("/cats/cat2.jpg"),
-      new Image("/cats/cat3.jpg"),
       new Image("/cats/cat4.jpg"),
       new Image("/cats/cat5.jpg"),
       new Image("/cats/cat6.jpg"),
-      new Image("/cats/cat7.jpg")
+      new Image("/cats/cat7.jpg"),
+      new Image("/cats/cat3.gif"),
+      new Image("/cats/cat2.gif")
     };
     Random random = new Random();
     int r = random.nextInt(catPhotos.length);
