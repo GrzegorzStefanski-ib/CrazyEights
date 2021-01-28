@@ -501,7 +501,10 @@ public class GUIController {
         showDiscardPileLastCard();
         showBotsCards();
 
-        if (bot.isPlayersCardEmpty()) gameEnd(defeatPrompt);
+        if (bot.isPlayersCardEmpty()) {
+          gameEnd(defeatPrompt);
+          break;
+        }
       }
     }
   }
