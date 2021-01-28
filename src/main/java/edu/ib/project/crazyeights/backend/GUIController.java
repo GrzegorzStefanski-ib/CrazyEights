@@ -72,6 +72,10 @@ public class GUIController {
 
   @FXML private TextArea logWindow;
 
+  @FXML private Text clickToDrawLabel;
+
+  @FXML private Text selectNewColorLabel;
+
   private Game game;
   private ImageView[] cardImages;
   private Image[] cardImagesRaw;
@@ -80,14 +84,14 @@ public class GUIController {
   @FXML
   void colorPickOnClick(ActionEvent event) throws Exception {
     Button button = (Button) event.getSource();
-    String colorEncoding = button.getText();
+    String colorEncoding = button.getId();
 
     byte newColor =
         switch (colorEncoding) {
-          case "Hearts" -> (byte) 0;
-          case "Spades" -> (byte) 1;
-          case "Diamonds" -> (byte) 2;
-          case "Clubs" -> (byte) 3;
+          case "heartsButton" -> (byte) 0;
+          case "spadesButton" -> (byte) 1;
+          case "diamondsButton" -> (byte) 2;
+          case "clubsButton" -> (byte) 3;
           default -> throw new IllegalStateException("Unexpected value: " + colorEncoding);
         };
 
@@ -101,6 +105,7 @@ public class GUIController {
     cardsPane.setMouseTransparent(false);
     discardView.setMouseTransparent(false);
     colorPicker.setVisible(false);
+    selectNewColorLabel.setVisible(false);
 
     turnEnd(player);
   }
@@ -194,21 +199,26 @@ public class GUIController {
         : "fx:id=\"discardView\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert actualColorLabel != null
         : "fx:id=\"actualColorLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert logWindow != null
+        : "fx:id=\"logWindow\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert cheaterPrompt != null
         : "fx:id=\"cheaterPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert winPrompt != null
         : "fx:id=\"winPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert defeatPrompt != null
         : "fx:id=\"defeatPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert logWindow != null
-        : "fx:id=\"logWindow\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert clickToDrawLabel != null
+        : "fx:id=\"clickToDrawLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert selectNewColorLabel != null
+        : "fx:id=\"selectNewColorLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
 
     gameModeSelector.getItems().add("2 players");
     gameModeSelector.getItems().add("3 players");
     gameModeSelector.getItems().add("4 players");
     gameModeSelector.setValue("2 players");
 
-    logWindow.setText("Game started.");
+    logWindow.clear();
+    logWindow.setText("Game started. \nYou start first.");
 
     initializeCardImages();
     BackgroundImage myBI =
@@ -250,8 +260,26 @@ public class GUIController {
     cardBackView.setFitHeight(136);
     cardBackView.setFitWidth(100);
     cardBackView.setPreserveRatio(true);
-
     drawCardButton.setGraphic(cardBackView);
+
+    dir = new File("src/main/resources/icons/");
+    files = dir.listFiles();
+
+    Image[] icons = new Image[4];
+    ImageView[] iconsView = new ImageView[4];
+
+    for (int i = 0; i < Objects.requireNonNull(files).length; i++) {
+      icons[i] = new Image(files[i].toString().substring(18));
+      iconsView[i] = new ImageView(icons[i]);
+      iconsView[i].setFitHeight(50);
+      iconsView[i].setFitWidth(50);
+      iconsView[i].setPreserveRatio(true);
+    }
+
+    heartsButton.setGraphic(iconsView[0]);
+    spadesButton.setGraphic(iconsView[1]);
+    diamondsButton.setGraphic(iconsView[2]);
+    clubsButton.setGraphic(iconsView[3]);
   }
 
   private void showPlayerCards() {
@@ -425,6 +453,7 @@ public class GUIController {
     cardsPane.setMouseTransparent(true);
     discardView.setMouseTransparent(true);
     colorPicker.setVisible(true);
+    selectNewColorLabel.setVisible(true);
   }
 
   private void removeCard(int index) throws Exception {
@@ -463,12 +492,12 @@ public class GUIController {
     if (player.isPlayersCardEmpty()) gameEnd(winPrompt);
     else {
       List<Player> bots = game.getBotsList();
-      BotsAlgorithm botsAlgorithm = new BotsAlgorithm(game, logWindow);
+      BotsAlgorithm botsAlgorithm = new BotsAlgorithm(game);
 
       for (Player bot : bots) {
-        botsAlgorithm.makeBotMove(bot);
+        String botLog = botsAlgorithm.makeBotMove(bot);
 
-        logWindow.setText(botsAlgorithm.getLogWindow().getText());
+        writeToLogWindow(botLog);
 
         showDiscardPileLastCard();
         showBotsCards();

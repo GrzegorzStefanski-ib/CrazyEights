@@ -4,19 +4,16 @@ package edu.ib.project.crazyeights.backend;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import javafx.scene.control.TextArea;
 
 public class BotsAlgorithm {
 
   private Game game;
-  private TextArea logWindow;
 
-  public BotsAlgorithm(Game game, TextArea logWindow) {
+  public BotsAlgorithm(Game game) {
     this.game = game;
-    this.logWindow = logWindow;
   }
 
-  public void makeBotMove(Player bot) throws Exception {
+  public String makeBotMove(Player bot) throws Exception {
     List<Integer> indexesOfPlayableCards = getIndexesOfPlayableCards(bot);
     Deck deck = game.getDeck();
 
@@ -34,7 +31,8 @@ public class BotsAlgorithm {
         bot.playCard(deck, cardToPlayIndex);
       }
     }
-    writeToLogWindow(bot.getLog());
+
+    return bot.getLog();
   }
 
   private List<Integer> getIndexesOfPlayableCards(Player bot) {
@@ -51,15 +49,5 @@ public class BotsAlgorithm {
     }
 
     return indexesOfPlayableCards;
-  }
-
-  public void writeToLogWindow(String message) {
-    String logWindowText = logWindow.getText();
-    logWindow.setText(logWindowText + "\n" + message);
-    logWindow.end();
-  }
-
-  public TextArea getLogWindow() {
-    return logWindow;
   }
 }
