@@ -57,3 +57,9 @@
     -fx-opacity: 0.3;
     -fx-text-fill: #000000;
 }
+
+.grid-pane
+{
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
