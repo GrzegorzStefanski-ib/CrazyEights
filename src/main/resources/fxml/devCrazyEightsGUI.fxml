@@ -145,7 +145,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <TextArea fx:id="logWindow" layoutX="32.0" layoutY="37.0" prefHeight="200.0" prefWidth="363.0" />
+            <TextArea fx:id="logWindow" editable="false" focusTraversable="false" layoutX="32.0" layoutY="37.0" prefHeight="200.0" prefWidth="363.0" />
             <Text fx:id="cheaterPrompt" fill="RED" layoutX="487.0" layoutY="390.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="3.0" text="CHEATER!" visible="false">
                <font>
                   <Font size="74.0" />

@@ -402,17 +402,16 @@ public class GUIController {
           if (Card.compareCrazyEight(cardToPlay)) {
             showColorPicker(cardToPlayIndex);
           } else {
-            try {
-              player.playCard(deck, cardToPlayIndex);
-              writeToLogWindow(player.getLog());
-              removeCard(cardToPlayIndex);
-            } catch (Exception e) {
-              e.printStackTrace();
-              return;
-            }
 
             try {
-              turnEnd(player);
+              if (player.playCard(deck, cardToPlayIndex)) {
+                removeCard(cardToPlayIndex);
+                writeToLogWindow(player.getLog());
+                turnEnd(player);
+              } else {
+                writeToLogWindow(player.getLog());
+              }
+
             } catch (Exception e) {
               e.printStackTrace();
             }
@@ -454,6 +453,7 @@ public class GUIController {
   public void writeToLogWindow(String message) {
     String logWindowText = logWindow.getText();
     logWindow.setText(logWindowText + "\n" + message);
+    logWindow.end();
   }
 
   private void turnEnd(Player player) throws Exception {

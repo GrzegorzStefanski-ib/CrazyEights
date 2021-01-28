@@ -22,7 +22,6 @@ public class BotsAlgorithm {
 
     if (indexesOfPlayableCards.size() == 0) {
       bot.drawCard(deck);
-      writeToLogWindow(bot.getLog());
     } else {
       int cardToPlayIndex = indexesOfPlayableCards.get(0);
       Card cardToPlay = bot.getCard(cardToPlayIndex);
@@ -34,8 +33,8 @@ public class BotsAlgorithm {
       } else {
         bot.playCard(deck, cardToPlayIndex);
       }
-      writeToLogWindow(bot.getLog());
     }
+    writeToLogWindow(bot.getLog());
   }
 
   private List<Integer> getIndexesOfPlayableCards(Player bot) {
@@ -57,6 +56,7 @@ public class BotsAlgorithm {
   public void writeToLogWindow(String message) {
     String logWindowText = logWindow.getText();
     logWindow.setText(logWindowText + "\n" + message);
+    logWindow.end();
   }
 
   public TextArea getLogWindow() {

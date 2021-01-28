@@ -18,7 +18,9 @@ public class Player {
     this.cheater = false;
   }
 
-  public void playCard(Deck deck, int cardIndex) throws Exception {
+  public boolean playCard(Deck deck, int cardIndex) {
+    boolean ok = true;
+
     Card lastCardOnDiscardPile = deck.getLastCardFromDiscardPile();
     Card cardToPlay = playerCards.get(cardIndex);
 
@@ -26,7 +28,12 @@ public class Player {
       playerCards.remove(cardToPlay);
       deck.addCardToDiscardPile(cardToPlay);
       log = "Player " + name + " played: " + cardToPlay.toString() + ".";
-    } else log = "You cant play this card now.";
+    } else {
+      log = "You cant play this card now.";
+      ok = false;
+    }
+
+    return ok;
   }
 
   public void playCrazyEight(Deck deck, int cardIndex, byte newColor) {
