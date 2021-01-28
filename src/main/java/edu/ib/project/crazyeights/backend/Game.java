@@ -18,7 +18,7 @@ public class Game {
     String filePath = "cardsData.txt";
     List<Card> cards = loadCardsData(filePath);
 
-    String[] playersName = {"You", "Bot Przemek", "Bot Tomek", "Bot Mirek"};
+    String[] playersName = {"You", "Bot Mruczek", "Bot Puszek", "Bot Kitu"};
     int mode =
         switch (gameMode) {
           case "2 players" -> 2;

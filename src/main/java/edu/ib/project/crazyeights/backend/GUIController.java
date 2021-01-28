@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -38,8 +39,6 @@ public class GUIController {
   @FXML private Text defeatPrompt;
   @FXML private Text cheaterPrompt;
 
-  @FXML private Text actualColorLabel;
-
   @FXML private Circle bot1ImageCircle;
   @FXML private Circle bot3ImageCircle;
   @FXML private Circle bot2ImageCircle;
@@ -58,7 +57,7 @@ public class GUIController {
 
   @FXML private Button clubsButton;
 
-  @FXML private Text newColorLabel;
+  @FXML private Text actualColorLabel;
 
   @FXML private ImageView bot3EmptyCard;
 
@@ -70,6 +69,8 @@ public class GUIController {
   @FXML private Text bot2CardCount;
 
   @FXML private Text bot1CardCount;
+
+  @FXML private TextArea logWindow;
 
   private Game game;
   private ImageView[] cardImages;
@@ -94,6 +95,7 @@ public class GUIController {
     Player player = game.getPlayer();
 
     player.playCrazyEight(deck, cardToPlayIndexHolder, newColor);
+    writeToLogWindow(player.getLog());
     removeCard(cardToPlayIndexHolder);
 
     cardsPane.setMouseTransparent(false);
@@ -136,6 +138,7 @@ public class GUIController {
     Player player = game.getPlayer();
 
     player.drawCard(deck);
+    writeToLogWindow(player.getLog());
     addCard();
 
     if (player.isCheater()) {
@@ -155,26 +158,8 @@ public class GUIController {
         : "fx:id=\"startGameButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert gameScreen != null
         : "fx:id=\"gameScreen\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert drawCardButton != null
-        : "fx:id=\"drawCardButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert winPrompt != null
-        : "fx:id=\"winPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert defeatPrompt != null
-        : "fx:id=\"defeatPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert cheaterPrompt != null
-        : "fx:id=\"cheaterPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert actualColorLabel != null
-        : "fx:id=\"actualColorLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert bot1ImageCircle != null
-        : "fx:id=\"bot1ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert bot3ImageCircle != null
-        : "fx:id=\"bot3ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert bot2ImageCircle != null
-        : "fx:id=\"bot2ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert cardsPane != null
         : "fx:id=\"cardsPane\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert discardView != null
-        : "fx:id=\"discardView\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert colorPicker != null
         : "fx:id=\"colorPicker\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert heartsButton != null
@@ -185,25 +170,45 @@ public class GUIController {
         : "fx:id=\"diamondsButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert clubsButton != null
         : "fx:id=\"clubsButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert newColorLabel != null
-        : "fx:id=\"newColorLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot3ImageCircle != null
+        : "fx:id=\"bot3ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot3EmptyCard != null
         : "fx:id=\"bot3EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert bot2EmptyCard != null
-        : "fx:id=\"bot2EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
-    assert bot1EmptyCard != null
-        : "fx:id=\"bot1EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot3CardCount != null
         : "fx:id=\"bot3CardCount\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot2CardCount != null
         : "fx:id=\"bot2CardCount\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot2EmptyCard != null
+        : "fx:id=\"bot2EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot2ImageCircle != null
+        : "fx:id=\"bot2ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot1ImageCircle != null
+        : "fx:id=\"bot1ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert bot1EmptyCard != null
+        : "fx:id=\"bot1EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot1CardCount != null
         : "fx:id=\"bot1CardCount\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert drawCardButton != null
+        : "fx:id=\"drawCardButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert discardView != null
+        : "fx:id=\"discardView\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert actualColorLabel != null
+        : "fx:id=\"actualColorLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert cheaterPrompt != null
+        : "fx:id=\"cheaterPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert winPrompt != null
+        : "fx:id=\"winPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert defeatPrompt != null
+        : "fx:id=\"defeatPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+    assert logWindow != null
+        : "fx:id=\"logWindow\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
 
     gameModeSelector.getItems().add("2 players");
     gameModeSelector.getItems().add("3 players");
     gameModeSelector.getItems().add("4 players");
     gameModeSelector.setValue("2 players");
+
+    logWindow.setText("Game started.");
 
     initializeCardImages();
     BackgroundImage myBI =
@@ -279,6 +284,8 @@ public class GUIController {
 
     cardsPane.getChildren().clear();
 
+    writeToLogWindow("Game ended. It will restart in 5 second.");
+
     Timer timer = new Timer();
     TimerTask timerTask =
         new TimerTask() {
@@ -316,8 +323,8 @@ public class GUIController {
                 "Unexpected value: " + deck.getActualColor());
           };
 
-      newColorLabel.setText("Current color is " + actualColor);
-    } else newColorLabel.setText("");
+      actualColorLabel.setText("Current color is " + actualColor);
+    } else actualColorLabel.setText("");
 
     byte color = discardPileLastCard.getColor();
     byte value = discardPileLastCard.getValue();
@@ -397,17 +404,18 @@ public class GUIController {
           } else {
             try {
               player.playCard(deck, cardToPlayIndex);
+              writeToLogWindow(player.getLog());
               removeCard(cardToPlayIndex);
             } catch (Exception e) {
               e.printStackTrace();
               return;
             }
-          }
 
-          try {
-            turnEnd(player);
-          } catch (Exception e) {
-            e.printStackTrace();
+            try {
+              turnEnd(player);
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
           }
         });
     cardsPane.getChildren().add(button);
@@ -443,6 +451,11 @@ public class GUIController {
     }
   }
 
+  public void writeToLogWindow(String message) {
+    String logWindowText = logWindow.getText();
+    logWindow.setText(logWindowText + "\n" + message);
+  }
+
   private void turnEnd(Player player) throws Exception {
     showDiscardPileLastCard();
     showPlayerCards();
@@ -450,10 +463,12 @@ public class GUIController {
     if (player.isPlayersCardEmpty()) gameEnd(winPrompt);
     else {
       List<Player> bots = game.getBotsList();
-      BotsAlgorithm botsAlgorithm = new BotsAlgorithm(game);
+      BotsAlgorithm botsAlgorithm = new BotsAlgorithm(game, logWindow);
 
       for (Player bot : bots) {
         botsAlgorithm.makeBotMove(bot);
+
+        logWindow.setText(botsAlgorithm.getLogWindow().getText());
 
         showDiscardPileLastCard();
         showBotsCards();

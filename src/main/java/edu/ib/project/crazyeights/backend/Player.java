@@ -9,6 +9,7 @@ public class Player {
   private List<Card> playerCards;
   private int score;
   private boolean cheater;
+  private String log;
 
   public Player(String name, List<Card> playerCards) {
     this.name = name;
@@ -24,7 +25,8 @@ public class Player {
     if (cardToPlay.compare(lastCardOnDiscardPile)) {
       playerCards.remove(cardToPlay);
       deck.addCardToDiscardPile(cardToPlay);
-    } else throw new Exception("Player can't play this card now!");
+      log = "Player " + name + " played: " + cardToPlay.toString() + ".";
+    } else log = "You cant play this card now.";
   }
 
   public void playCrazyEight(Deck deck, int cardIndex, byte newColor) {
@@ -32,11 +34,21 @@ public class Player {
 
     playerCards.remove(cardToPlay);
     deck.addCardToDiscardPile(cardToPlay, newColor);
+    log =
+        "Player "
+            + name
+            + " played Crazy Eight: "
+            + cardToPlay.toString()
+            + ".\n"
+            + "Color changed to: "
+            + Card.COLOR_ENCODING[newColor]
+            + ".";
   }
 
   public void drawCard(Deck deck) {
     try {
       playerCards.add(deck.getCardFromDeck());
+      log = "Player " + name + " drew card.";
     } catch (Exception e) {
       cheater = true;
     }
@@ -56,5 +68,9 @@ public class Player {
 
   public List<Card> getPlayerCards() {
     return playerCards;
+  }
+
+  public String getLog() {
+    return log;
   }
 }

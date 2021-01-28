@@ -4,21 +4,26 @@ package edu.ib.project.crazyeights.backend;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import javafx.scene.control.TextArea;
 
 public class BotsAlgorithm {
 
   private Game game;
+  private TextArea logWindow;
 
-  public BotsAlgorithm(Game game) {
+  public BotsAlgorithm(Game game, TextArea logWindow) {
     this.game = game;
+    this.logWindow = logWindow;
   }
 
   public void makeBotMove(Player bot) throws Exception {
     List<Integer> indexesOfPlayableCards = getIndexesOfPlayableCards(bot);
     Deck deck = game.getDeck();
 
-    if (indexesOfPlayableCards.size() == 0) bot.drawCard(deck);
-    else {
+    if (indexesOfPlayableCards.size() == 0) {
+      bot.drawCard(deck);
+      writeToLogWindow(bot.getLog());
+    } else {
       int cardToPlayIndex = indexesOfPlayableCards.get(0);
       Card cardToPlay = bot.getCard(cardToPlayIndex);
 
@@ -26,7 +31,10 @@ public class BotsAlgorithm {
         Random random = new Random();
 
         bot.playCrazyEight(deck, cardToPlayIndex, (byte) random.nextInt(4));
-      } else bot.playCard(deck, cardToPlayIndex);
+      } else {
+        bot.playCard(deck, cardToPlayIndex);
+      }
+      writeToLogWindow(bot.getLog());
     }
   }
 
@@ -37,11 +45,6 @@ public class BotsAlgorithm {
 
     for (int i = 0; i < botCards.size(); i++) {
       Card botCardToPlay = botCards.get(i);
-      //      System.out.println(botCardToPlay.toString());
-      //      System.out.println(lastCardOnDiscardPile.toString());
-      //      System.out.println(botCardToPlay.compare(lastCardOnDiscardPile));
-      //      System.out.println(Card.compareCrazyEight(botCardToPlay));
-      //      System.out.println(i);
 
       if (botCardToPlay.compare(lastCardOnDiscardPile) || Card.compareCrazyEight(botCardToPlay)) {
         indexesOfPlayableCards.add(i);
@@ -49,5 +52,14 @@ public class BotsAlgorithm {
     }
 
     return indexesOfPlayableCards;
+  }
+
+  public void writeToLogWindow(String message) {
+    String logWindowText = logWindow.getText();
+    logWindow.setText(logWindowText + "\n" + message);
+  }
+
+  public TextArea getLogWindow() {
+    return logWindow;
   }
 }

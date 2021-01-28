@@ -6,7 +6,7 @@ public class Card {
   private final byte color;
   private final byte value;
 
-  private final String[] colorEncoding = {"H", "S", "D", "C"};
+  public static final String[] COLOR_ENCODING = {"H", "S", "D", "C"};
   private final String[] valueEncoding = {
     "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"
   };
@@ -34,6 +34,6 @@ public class Card {
 
   @Override
   public String toString() {
-    return "Card{" + "color=" + colorEncoding[color] + ", value=" + valueEncoding[value] + '}';
+    return "Card{" + "color=" + COLOR_ENCODING[color] + ", value=" + valueEncoding[value] + '}';
   }
 }
