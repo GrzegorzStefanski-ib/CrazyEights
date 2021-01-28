@@ -1,6 +1,7 @@
 //Copyright (C) 2021, Grzegorz Stefański
-package edu.ib.project.crazyeights.backend;
+package edu.ib.project.crazyeights.frontend;
 
+import edu.ib.project.crazyeights.backend.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;

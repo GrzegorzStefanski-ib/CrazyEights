@@ -1,6 +1,7 @@
 //Copyright (C) 2021, Grzegorz Stefański
 package edu.ib.project.crazyeights.backend;
 
+import edu.ib.project.crazyeights.frontend.GUIController;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
