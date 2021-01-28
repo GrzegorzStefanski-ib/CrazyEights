@@ -374,9 +374,7 @@ public class GUIController {
       new Image("/cats/cat4.jpg", false),
       new Image("/cats/cat5.jpg", false),
       new Image("/cats/cat6.jpg", false),
-      new Image("/cats/cat7.jpg", false),
-      new Image("/cats/cat3.gif", false),
-      new Image("/cats/cat2.gif", false)
+      new Image("/cats/cat7.jpg", false)
     };
     Random random = new Random();
     int r = random.nextInt(catPhotos.length);
