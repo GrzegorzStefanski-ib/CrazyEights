@@ -1,2 +1,3 @@
 ignore:
-  - "**/CrazyEights.java"
+  - "**/Main.java"
+  - "**/GUIController.java"

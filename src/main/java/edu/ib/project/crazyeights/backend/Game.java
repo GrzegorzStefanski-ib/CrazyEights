@@ -49,8 +49,7 @@ public class Game {
     int numberOfCardsToDeal =
         switch (mode) {
           case 2 -> 7;
-          case 3, 4 -> 5;
-          default -> 0;
+          default -> 5;
         };
 
     for (int i = 0; i < numberOfCardsToDeal; i++) {
