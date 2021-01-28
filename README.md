@@ -54,7 +54,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Product Name Screen Shot][product-screenshot]
+![Product Name Screen Shot 1][product-screenshot1]
+
+![Product Name Screen Shot 2][product-screenshot2]
 
 
 ### Built With
@@ -127,4 +129,5 @@ Project Link: [https://github.com/GrzegorzStefanski-ib/CrazyEights](https://gith
 [issues-url]: https://github.com/GrzegorzStefanski-ib/CrazyEights/issues
 [license-shield]: https://img.shields.io/badge/License-MIT-yellow.svg
 [license-url]: https://github.com/GrzegorzStefanski-ib/CrazyEights/blob/master/LICENSE
-[product-screenshot]: images/product.png
+[product-screenshot1]: images/product1.png
+[product-screenshot2]: images/product2.png
