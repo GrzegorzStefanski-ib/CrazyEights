@@ -4,7 +4,6 @@ package edu.ib.project.crazyeights.frontend;
 import edu.ib.project.crazyeights.backend.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,10 +20,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 public class GUIController {
-
-  @FXML private ResourceBundle resources;
-
-  @FXML private URL location;
 
   @FXML private Pane menuScreen;
 
@@ -81,78 +76,6 @@ public class GUIController {
   private ImageView[] cardImages;
   private Image[] cardImagesRaw;
   private int cardToPlayIndexHolder;
-
-  @FXML
-  void colorPickOnClick(ActionEvent event) throws Exception {
-    Button button = (Button) event.getSource();
-    String colorEncoding = button.getId();
-
-    byte newColor =
-        switch (colorEncoding) {
-          case "heartsButton" -> (byte) 0;
-          case "spadesButton" -> (byte) 1;
-          case "diamondsButton" -> (byte) 2;
-          case "clubsButton" -> (byte) 3;
-          default -> throw new IllegalStateException("Unexpected value: " + colorEncoding);
-        };
-
-    Deck deck = game.getDeck();
-    Player player = game.getPlayer();
-
-    player.playCrazyEight(deck, cardToPlayIndexHolder, newColor);
-    writeToLogWindow(player.getLog());
-    removeCard(cardToPlayIndexHolder);
-
-    cardsPane.setMouseTransparent(false);
-    discardView.setMouseTransparent(false);
-    colorPicker.setVisible(false);
-    selectNewColorLabel.setVisible(false);
-
-    turnEnd(player);
-  }
-
-  @FXML
-  void startGameButtonOnClick(ActionEvent event) {
-    String gameMode = gameModeSelector.getValue();
-
-    byte numberOfCards = 7;
-    if (!gameMode.equals("2 players")) {
-      numberOfCards = 5;
-    }
-
-    for (int i = 0; i < numberOfCards; i++) {
-      addCard();
-    }
-
-    try {
-      game = new Game(gameMode);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    drawCardButton.setMouseTransparent(false);
-    cardsPane.setMouseTransparent(false);
-    gameScreen.setVisible(true);
-
-    displayAllCardsInGame();
-    generateCats();
-  }
-
-  @FXML
-  void drawCardButtonOnClick(ActionEvent event) throws Exception {
-    Deck deck = game.getDeck();
-    Player player = game.getPlayer();
-
-    player.drawCard(deck);
-    writeToLogWindow(player.getLog());
-    addCard();
-
-    if (player.isCheater()) {
-      gameEnd(cheaterPrompt);
-    }
-
-    turnEnd(player);
-  }
 
   @FXML
   void initialize() {
@@ -283,86 +206,6 @@ public class GUIController {
     clubsButton.setGraphic(iconsView[3]);
   }
 
-  private void showPlayerCards() {
-
-    Player player = game.getPlayer();
-    List<Card> playerCards = player.getPlayerCards();
-
-    ObservableList<Node> cards = cardsPane.getChildren();
-    Button card;
-
-    byte color;
-    byte value;
-
-    int i = 0;
-    for (Card playerCard : playerCards) {
-      card = (Button) cards.get(i);
-
-      color = playerCard.getColor();
-      value = playerCard.getValue();
-
-      card.setGraphic(cardImages[color * 13 + value]);
-
-      i++;
-    }
-  }
-
-  private void gameEnd(Text label) {
-    drawCardButton.setMouseTransparent(true);
-    cardsPane.setMouseTransparent(true);
-
-    cardsPane.getChildren().clear();
-
-    writeToLogWindow("Game ended. It will restart in 5 second.");
-
-    Timer timer = new Timer();
-    TimerTask timerTask =
-        new TimerTask() {
-          @Override
-          public void run() {
-            label.setVisible(false);
-            gameScreen.setVisible(false);
-            menuScreen.setVisible(true);
-            timer.cancel();
-          }
-        };
-
-    label.setVisible(true);
-    timer.schedule(timerTask, 5000);
-  }
-
-  private void displayAllCardsInGame() {
-    showDiscardPileLastCard();
-    showPlayerCards();
-    showBotsCards();
-  }
-
-  private void showDiscardPileLastCard() {
-    Deck deck = game.getDeck();
-    Card discardPileLastCard = deck.getLastCardFromDiscardPileForGUI();
-
-    if (deck.getActualColor() != null) {
-      String actualColor =
-          switch (deck.getActualColor()) {
-            case 0 -> "Hearts";
-            case 1 -> "Spades";
-            case 2 -> "Diamonds";
-            case 3 -> "Clubs";
-            default -> throw new IllegalStateException(
-                "Unexpected value: " + deck.getActualColor());
-          };
-
-      actualColorLabel.setText("Current color is " + actualColor);
-    } else actualColorLabel.setText("");
-
-    byte color = discardPileLastCard.getColor();
-    byte value = discardPileLastCard.getValue();
-
-    Random random = new Random();
-    discardView.setImage(cardImagesRaw[color * 13 + value]);
-    discardView.setRotate(random.nextInt(50) - 25);
-  }
-
   private void generateCats() {
 
     int rOld1 = -1;
@@ -447,14 +290,6 @@ public class GUIController {
     cardsPane.getChildren().add(button);
   }
 
-  private void showColorPicker(int cardToPlayIndex) {
-    cardToPlayIndexHolder = cardToPlayIndex;
-    cardsPane.setMouseTransparent(true);
-    discardView.setMouseTransparent(true);
-    colorPicker.setVisible(true);
-    selectNewColorLabel.setVisible(true);
-  }
-
   private void removeCard(int index) throws Exception {
     ObservableList<Node> cards = cardsPane.getChildren();
     if (index > cards.size() - 1) throw new Exception("Error: CrazyEightsTest.java 716");
@@ -466,25 +301,79 @@ public class GUIController {
     }
   }
 
-  // For dev tests
-  private void showBotsCards() {
-    List<Player> bots = game.getBotsList();
-    List<Text> botCardCounts = Arrays.asList(bot1CardCount, bot2CardCount, bot3CardCount);
+  @FXML
+  void startGameButtonOnClick() {
+    String gameMode = gameModeSelector.getValue();
 
-    for (int i = 0; i < bots.size(); i++) {
-      Player bot = bots.get(i);
-      List<Card> botCards = bot.getPlayerCards();
-      botCardCounts.get(i).setText(String.valueOf(botCards.size()));
+    byte numberOfCards = 7;
+    if (!gameMode.equals("2 players")) {
+      numberOfCards = 5;
     }
+
+    for (int i = 0; i < numberOfCards; i++) {
+      addCard();
+    }
+
+    try {
+      game = new Game(gameMode);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    drawCardButton.setMouseTransparent(false);
+    cardsPane.setMouseTransparent(false);
+    gameScreen.setVisible(true);
+
+    displayAllCardsInGame();
+    generateCats();
   }
 
-  public void writeToLogWindow(String message) {
-    String logWindowText = logWindow.getText();
-    logWindow.setText(logWindowText + "\n" + message);
-    logWindow.end();
+  @FXML
+  void colorPickOnClick(ActionEvent event) throws Exception {
+    Button button = (Button) event.getSource();
+    String colorEncoding = button.getId();
+
+    byte newColor =
+        switch (colorEncoding) {
+          case "heartsButton" -> (byte) 0;
+          case "spadesButton" -> (byte) 1;
+          case "diamondsButton" -> (byte) 2;
+          case "clubsButton" -> (byte) 3;
+          default -> throw new IllegalStateException("Unexpected value: " + colorEncoding);
+        };
+
+    Deck deck = game.getDeck();
+    Player player = game.getPlayer();
+
+    player.playCrazyEight(deck, cardToPlayIndexHolder, newColor);
+    writeToLogWindow(player.getLog());
+    removeCard(cardToPlayIndexHolder);
+
+    cardsPane.setMouseTransparent(false);
+    discardView.setMouseTransparent(false);
+    colorPicker.setVisible(false);
+    selectNewColorLabel.setVisible(false);
+
+    turnEnd(player);
   }
 
-  private void turnEnd(Player player) throws Exception {
+  @FXML
+  void drawCardButtonOnClick() {
+    Deck deck = game.getDeck();
+    Player player = game.getPlayer();
+
+    player.drawCard(deck);
+    writeToLogWindow(player.getLog());
+    addCard();
+
+    if (player.isCheater()) {
+      gameEnd(cheaterPrompt);
+    }
+
+    turnEnd(player);
+  }
+
+  private void turnEnd(Player player) {
     showDiscardPileLastCard();
     showPlayerCards();
 
@@ -507,5 +396,109 @@ public class GUIController {
         }
       }
     }
+  }
+
+  private void gameEnd(Text label) {
+    drawCardButton.setMouseTransparent(true);
+    cardsPane.setMouseTransparent(true);
+
+    cardsPane.getChildren().clear();
+
+    writeToLogWindow("Game ended. It will restart in 5 second.");
+
+    Timer timer = new Timer();
+    TimerTask timerTask =
+        new TimerTask() {
+          @Override
+          public void run() {
+            label.setVisible(false);
+            gameScreen.setVisible(false);
+            menuScreen.setVisible(true);
+            timer.cancel();
+          }
+        };
+
+    label.setVisible(true);
+    timer.schedule(timerTask, 5000);
+  }
+
+  private void displayAllCardsInGame() {
+    showDiscardPileLastCard();
+    showPlayerCards();
+    showBotsCards();
+  }
+
+  private void showDiscardPileLastCard() {
+    Deck deck = game.getDeck();
+    Card discardPileLastCard = deck.getLastCardFromDiscardPileForGUI();
+
+    if (deck.getActualSuit() != null) {
+      String actualColor =
+          switch (deck.getActualSuit()) {
+            case 0 -> "Hearts";
+            case 1 -> "Spades";
+            case 2 -> "Diamonds";
+            case 3 -> "Clubs";
+            default -> throw new IllegalStateException("Unexpected value: " + deck.getActualSuit());
+          };
+
+      actualColorLabel.setText("Current color is " + actualColor);
+    } else actualColorLabel.setText("");
+
+    byte color = discardPileLastCard.getSuit();
+    byte value = discardPileLastCard.getValue();
+
+    Random random = new Random();
+    discardView.setImage(cardImagesRaw[color * 13 + value]);
+    discardView.setRotate(random.nextInt(50) - 25);
+  }
+
+  private void showPlayerCards() {
+
+    Player player = game.getPlayer();
+    List<Card> playerCards = player.getPlayerCards();
+
+    ObservableList<Node> cards = cardsPane.getChildren();
+    Button card;
+
+    byte color;
+    byte value;
+
+    int i = 0;
+    for (Card playerCard : playerCards) {
+      card = (Button) cards.get(i);
+
+      color = playerCard.getSuit();
+      value = playerCard.getValue();
+
+      card.setGraphic(cardImages[color * 13 + value]);
+
+      i++;
+    }
+  }
+
+  private void showBotsCards() {
+    List<Player> bots = game.getBotsList();
+    List<Text> botCardCounts = Arrays.asList(bot1CardCount, bot2CardCount, bot3CardCount);
+
+    for (int i = 0; i < bots.size(); i++) {
+      Player bot = bots.get(i);
+      List<Card> botCards = bot.getPlayerCards();
+      botCardCounts.get(i).setText(String.valueOf(botCards.size()));
+    }
+  }
+
+  private void showColorPicker(int cardToPlayIndex) {
+    cardToPlayIndexHolder = cardToPlayIndex;
+    cardsPane.setMouseTransparent(true);
+    discardView.setMouseTransparent(true);
+    colorPicker.setVisible(true);
+    selectNewColorLabel.setVisible(true);
+  }
+
+  public void writeToLogWindow(String message) {
+    String logWindowText = logWindow.getText();
+    logWindow.setText(logWindowText + "\n" + message);
+    logWindow.end();
   }
 }

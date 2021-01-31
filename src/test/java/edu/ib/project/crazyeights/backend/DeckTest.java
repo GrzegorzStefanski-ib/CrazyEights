@@ -107,7 +107,7 @@ public class DeckTest {
     Game game = new Game("2 players");
     Deck deck = game.getDeck();
 
-    Byte color = deck.getActualColor();
+    Byte color = deck.getActualSuit();
 
     assertNull(color);
 

@@ -48,7 +48,7 @@ public class CardTest {
     System.out.printf("%-50s", "\t* getColor method... ");
 
     Card card = new Card((byte) 0, (byte) 0);
-    assertEquals(card.getColor(), (byte) 0);
+    assertEquals(card.getSuit(), (byte) 0);
 
     System.out.println("OK");
   }
