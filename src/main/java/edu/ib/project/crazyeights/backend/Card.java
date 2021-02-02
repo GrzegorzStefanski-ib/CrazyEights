@@ -53,6 +53,6 @@ public class Card {
 
   @Override
   public String toString() {
-    return "Card{" + "color=" + SUIT_ENCODING[suit] + ", value=" + valueEncoding[value] + '}';
+    return "Card{" + "suit=" + SUIT_ENCODING[suit] + ", value=" + valueEncoding[value] + '}';
   }
 }
