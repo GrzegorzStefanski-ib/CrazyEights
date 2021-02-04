@@ -35,9 +35,11 @@ public class GUIController {
   @FXML private Text defeatPrompt;
   @FXML private Text cheaterPrompt;
 
+  private List<Circle> botsImageCircles;
+
   @FXML private Circle bot1ImageCircle;
-  @FXML private Circle bot3ImageCircle;
   @FXML private Circle bot2ImageCircle;
+  @FXML private Circle bot3ImageCircle;
 
   @FXML private AnchorPane cardsPane;
 
@@ -55,16 +57,17 @@ public class GUIController {
 
   @FXML private Text actualColorLabel;
 
-  @FXML private ImageView bot3EmptyCard;
-
-  @FXML private ImageView bot2EmptyCard;
+  private List<ImageView> botsEmptyCards;
 
   @FXML private ImageView bot1EmptyCard;
-  @FXML private Text bot3CardCount;
+  @FXML private ImageView bot2EmptyCard;
+  @FXML private ImageView bot3EmptyCard;
 
-  @FXML private Text bot2CardCount;
+  private List<Text> botsCardCounts;
 
   @FXML private Text bot1CardCount;
+  @FXML private Text bot2CardCount;
+  @FXML private Text bot3CardCount;
 
   @FXML private TextArea logWindow;
 
@@ -80,61 +83,61 @@ public class GUIController {
   @FXML
   void initialize() {
     assert menuScreen != null
-        : "fx:id=\"menuScreen\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"menuScreen\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert gameModeSelector != null
-        : "fx:id=\"gameModeSelector\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"gameModeSelector\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert startGameButton != null
-        : "fx:id=\"startGameButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"startGameButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert gameScreen != null
-        : "fx:id=\"gameScreen\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"gameScreen\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert cardsPane != null
-        : "fx:id=\"cardsPane\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"cardsPane\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert colorPicker != null
-        : "fx:id=\"colorPicker\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"colorPicker\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert heartsButton != null
-        : "fx:id=\"heartsButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"heartsButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert spadesButton != null
-        : "fx:id=\"spadesButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"spadesButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert diamondsButton != null
-        : "fx:id=\"diamondsButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"diamondsButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert clubsButton != null
-        : "fx:id=\"clubsButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"clubsButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot3ImageCircle != null
-        : "fx:id=\"bot3ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"bot3ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot3EmptyCard != null
-        : "fx:id=\"bot3EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"bot3EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot3CardCount != null
-        : "fx:id=\"bot3CardCount\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"bot3CardCount\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot2CardCount != null
-        : "fx:id=\"bot2CardCount\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"bot2CardCount\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot2EmptyCard != null
-        : "fx:id=\"bot2EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"bot2EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot2ImageCircle != null
-        : "fx:id=\"bot2ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"bot2ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot1ImageCircle != null
-        : "fx:id=\"bot1ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"bot1ImageCircle\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot1EmptyCard != null
-        : "fx:id=\"bot1EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"bot1EmptyCard\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert bot1CardCount != null
-        : "fx:id=\"bot1CardCount\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"bot1CardCount\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert drawCardButton != null
-        : "fx:id=\"drawCardButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"drawCardButton\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert discardView != null
-        : "fx:id=\"discardView\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"discardView\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert actualColorLabel != null
-        : "fx:id=\"actualColorLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"actualColorLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert logWindow != null
-        : "fx:id=\"logWindow\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"logWindow\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert cheaterPrompt != null
-        : "fx:id=\"cheaterPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"cheaterPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert winPrompt != null
-        : "fx:id=\"winPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"winPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert defeatPrompt != null
-        : "fx:id=\"defeatPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"defeatPrompt\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert clickToDrawLabel != null
-        : "fx:id=\"clickToDrawLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"clickToDrawLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
     assert selectNewColorLabel != null
-        : "fx:id=\"selectNewColorLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
+            : "fx:id=\"selectNewColorLabel\" was not injected: check your FXML file 'devCrazyEightsGUI.fxml'.";
 
     gameModeSelector.getItems().add("2 players");
     gameModeSelector.getItems().add("3 players");
@@ -143,22 +146,37 @@ public class GUIController {
 
     initializeCardImages();
     BackgroundImage myBI =
-        new BackgroundImage(
-            new Image("/misc/bg.png", 1280, 720, false, true),
-            BackgroundRepeat.REPEAT,
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundPosition.DEFAULT,
-            BackgroundSize.DEFAULT);
+            new BackgroundImage(
+                    new Image("/misc/bg.png", 1280, 720, false, true),
+                    BackgroundRepeat.REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
     gameScreen.setBackground(new Background(myBI));
 
     BackgroundImage myBI2 =
-        new BackgroundImage(
-            new Image("/misc/bg2.png", 1280, 720, false, true),
-            BackgroundRepeat.REPEAT,
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundPosition.DEFAULT,
-            BackgroundSize.DEFAULT);
+            new BackgroundImage(
+                    new Image("/misc/bg2.png", 1280, 720, false, true),
+                    BackgroundRepeat.REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
     menuScreen.setBackground(new Background(myBI2));
+
+    botsImageCircles = new ArrayList<>();
+    botsImageCircles.add(bot1ImageCircle);
+    botsImageCircles.add(bot2ImageCircle);
+    botsImageCircles.add(bot3ImageCircle);
+
+    botsCardCounts = new ArrayList<>();
+    botsCardCounts.add(bot1CardCount);
+    botsCardCounts.add(bot2CardCount);
+    botsCardCounts.add(bot3CardCount);
+
+    botsEmptyCards = new ArrayList<>();
+    botsEmptyCards.add(bot1EmptyCard);
+    botsEmptyCards.add(bot2EmptyCard);
+    botsEmptyCards.add(bot3EmptyCard);
   }
 
   private void initializeCardImages() {
@@ -210,39 +228,51 @@ public class GUIController {
     List<Player> bots = game.getBotsList();
 
     Image[] catPhotos = {
-      new Image("/cats/cat4.jpg", false),
-      new Image("/cats/cat5.jpg", false),
-      new Image("/cats/cat6.jpg", false),
-      new Image("/cats/cat7.jpg", false)
+            new Image("/cats/cat4.jpg", false),
+            new Image("/cats/cat5.jpg", false),
+            new Image("/cats/cat6.jpg", false),
+            new Image("/cats/cat7.jpg", false)
     };
+
     Random random = new Random();
     int r = random.nextInt(catPhotos.length);
-    bot1ImageCircle.setFill(new ImagePattern(catPhotos[r]));
-    bot1ImageCircle.setVisible(true);
-    bot1EmptyCard.setImage(cardBack);
-    bot1EmptyCard.setFitHeight(136);
-    bot1EmptyCard.setPreserveRatio(true);
+
+    resetCats();
+
+    generateCat(0, r, catPhotos, cardBack);
+
     if (bots.size() > 1) {
       rOld1 = r;
       while (r == rOld1) {
         r = random.nextInt(catPhotos.length);
       }
-      bot2ImageCircle.setFill(new ImagePattern(catPhotos[r]));
-      bot2ImageCircle.setVisible(true);
-      bot2EmptyCard.setImage(cardBack);
-      bot2EmptyCard.setFitHeight(136);
-      bot2EmptyCard.setPreserveRatio(true);
+      generateCat(1, r, catPhotos, cardBack);
     }
+
     if (bots.size() > 2) {
       rOld2 = r;
       while (r == rOld1 || r == rOld2) {
         r = random.nextInt(catPhotos.length);
       }
-      bot3ImageCircle.setFill(new ImagePattern(catPhotos[r]));
-      bot3ImageCircle.setVisible(true);
-      bot3EmptyCard.setImage(cardBack);
-      bot3EmptyCard.setFitHeight(136);
-      bot3EmptyCard.setPreserveRatio(true);
+      generateCat(2, r, catPhotos, cardBack);
+    }
+  }
+
+  private void generateCat(int index, int r, Image[] catPhotos, Image cardBack) {
+    botsImageCircles.get(index).setFill(new ImagePattern(catPhotos[r]));
+    botsImageCircles.get(index).setVisible(true);
+    botsEmptyCards.get(index).setImage(cardBack);
+    botsEmptyCards.get(index).setFitHeight(136);
+    botsEmptyCards.get(index).setPreserveRatio(true);
+    botsEmptyCards.get(index).setVisible(true);
+    botsCardCounts.get(index).setVisible(true);
+  }
+
+  private void resetCats() {
+    for (int i = 0; i < 3; i++) {
+      botsImageCircles.get(i).setVisible(false);
+      botsEmptyCards.get(i).setVisible(false);
+      botsCardCounts.get(i).setVisible(false);
     }
   }
 
@@ -253,36 +283,36 @@ public class GUIController {
     button.setLayoutX(cardsPane.getChildren().size() * 70);
 
     button.setOnAction(
-        event -> {
-          int cardToPlayIndex = -1;
+            event -> {
+              int cardToPlayIndex = -1;
 
-          ObservableList<Node> cards = cardsPane.getChildren();
-          for (int i = 0; i < cards.size(); i++) {
-            if (button.equals(cards.get(i))) cardToPlayIndex = i;
-          }
-
-          Deck deck = game.getDeck();
-          Player player = game.getPlayer();
-
-          Card cardToPlay = player.getCard(cardToPlayIndex);
-          if (Card.compareCrazyEight(cardToPlay)) {
-            showColorPicker(cardToPlayIndex);
-          } else {
-
-            try {
-              if (player.playCard(deck, cardToPlayIndex)) {
-                removeCard(cardToPlayIndex);
-                writeToLogWindow(player.getLog());
-                turnEnd(player);
-              } else {
-                writeToLogWindow(player.getLog());
+              ObservableList<Node> cards = cardsPane.getChildren();
+              for (int i = 0; i < cards.size(); i++) {
+                if (button.equals(cards.get(i))) cardToPlayIndex = i;
               }
 
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-          }
-        });
+              Deck deck = game.getDeck();
+              Player player = game.getPlayer();
+
+              Card cardToPlay = player.getCard(cardToPlayIndex);
+              if (Card.compareCrazyEight(cardToPlay)) {
+                showColorPicker(cardToPlayIndex);
+              } else {
+
+                try {
+                  if (player.playCard(deck, cardToPlayIndex)) {
+                    removeCard(cardToPlayIndex);
+                    writeToLogWindow(player.getLog());
+                    turnEnd(player);
+                  } else {
+                    writeToLogWindow(player.getLog());
+                  }
+
+                } catch (Exception e) {
+                  e.printStackTrace();
+                }
+              }
+            });
     cardsPane.getChildren().add(button);
   }
 
@@ -333,13 +363,13 @@ public class GUIController {
     String colorEncoding = button.getId();
 
     byte newColor =
-        switch (colorEncoding) {
-          case "heartsButton" -> (byte) 0;
-          case "spadesButton" -> (byte) 1;
-          case "diamondsButton" -> (byte) 2;
-          case "clubsButton" -> (byte) 3;
-          default -> throw new IllegalStateException("Unexpected value: " + colorEncoding);
-        };
+            switch (colorEncoding) {
+              case "heartsButton" -> (byte) 0;
+              case "spadesButton" -> (byte) 1;
+              case "diamondsButton" -> (byte) 2;
+              case "clubsButton" -> (byte) 3;
+              default -> throw new IllegalStateException("Unexpected value: " + colorEncoding);
+            };
 
     Deck deck = game.getDeck();
     Player player = game.getPlayer();
@@ -407,15 +437,15 @@ public class GUIController {
 
     Timer timer = new Timer();
     TimerTask timerTask =
-        new TimerTask() {
-          @Override
-          public void run() {
-            label.setVisible(false);
-            gameScreen.setVisible(false);
-            menuScreen.setVisible(true);
-            timer.cancel();
-          }
-        };
+            new TimerTask() {
+              @Override
+              public void run() {
+                label.setVisible(false);
+                gameScreen.setVisible(false);
+                menuScreen.setVisible(true);
+                timer.cancel();
+              }
+            };
 
     label.setVisible(true);
     timer.schedule(timerTask, 5000);
@@ -433,13 +463,13 @@ public class GUIController {
 
     if (deck.getActualSuit() != null) {
       String actualColor =
-          switch (deck.getActualSuit()) {
-            case 0 -> "Hearts";
-            case 1 -> "Spades";
-            case 2 -> "Diamonds";
-            case 3 -> "Clubs";
-            default -> throw new IllegalStateException("Unexpected value: " + deck.getActualSuit());
-          };
+              switch (deck.getActualSuit()) {
+                case 0 -> "Hearts";
+                case 1 -> "Spades";
+                case 2 -> "Diamonds";
+                case 3 -> "Clubs";
+                default -> throw new IllegalStateException("Unexpected value: " + deck.getActualSuit());
+              };
 
       actualColorLabel.setText("Current suit is " + actualColor);
     } else actualColorLabel.setText("");

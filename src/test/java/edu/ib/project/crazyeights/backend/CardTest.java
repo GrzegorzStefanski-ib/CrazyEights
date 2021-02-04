@@ -70,7 +70,7 @@ public class CardTest {
     System.out.printf("%-50s", "\t* testToString method... ");
 
     Card card = new Card((byte) 0, (byte) 0);
-    assertEquals(card.toString(), "Card{color=H, value=2}");
+    assertEquals("Card{suit=H, value=2}", card.toString());
 
     System.out.println("OK");
   }
