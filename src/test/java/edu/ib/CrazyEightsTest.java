@@ -77,6 +77,19 @@ public class CrazyEightsTest {
 
     System.out.println();
   }
+
+  @Test
+  @Order(6)
+  public void testSuitClass() throws Exception {
+    SuitTest suitTest = new SuitTest();
+
+    suitTest.getSuit();
+    suitTest.getAmount();
+    suitTest.compareTo();
+    suitTest.testToString();
+
+    System.out.println();
+  }
   //
   //  @Test
   //  @Order(1)
