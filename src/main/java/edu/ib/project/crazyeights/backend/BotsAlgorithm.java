@@ -53,7 +53,6 @@ public class BotsAlgorithm {
       }
 
       int cardToPlayIndex;
-
       Random random = new Random();
       int i = random.nextInt(botCardsToPlayIndexes.size());
       cardToPlayIndex = botCardsToPlayIndexes.get(i);
@@ -101,7 +100,7 @@ public class BotsAlgorithm {
     for (int i = 0; i < botCards.size(); i++) {
       Card botCardToPlay = botCards.get(i);
 
-      if (botCardToPlay.compare(lastCardOnDiscardPile)) {
+      if (botCardToPlay.compare(lastCardOnDiscardPile) && botCardToPlay.getValue() != 6) {
         indexesOfPlayableCards.add(i);
       }
     }
