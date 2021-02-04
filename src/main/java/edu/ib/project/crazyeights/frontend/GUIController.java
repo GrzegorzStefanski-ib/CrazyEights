@@ -19,6 +19,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+/** The main controller class responsible for connecting the frontend to the backed of the application. */
 public class GUIController {
 
   @FXML private Pane menuScreen;
@@ -80,6 +81,9 @@ public class GUIController {
   private Image[] cardImagesRaw;
   private int cardToPlayIndexHolder;
 
+  /**
+   * Initializes all the controls and sets background
+   */
   @FXML
   void initialize() {
     assert menuScreen != null
@@ -179,6 +183,9 @@ public class GUIController {
     botsEmptyCards.add(bot3EmptyCard);
   }
 
+  /**
+   * Method responsible for loading the images of cards and colors after choosing an eight
+   */
   private void initializeCardImages() {
     File dir = new File("src/main/resources/cards/");
     File[] files = dir.listFiles();
@@ -221,6 +228,9 @@ public class GUIController {
     clubsButton.setGraphic(iconsView[3]);
   }
 
+  /**
+   * Method responsible for randomly assigning images of bots
+   */
   private void generateCats() {
     int rOld1 = -1;
     int rOld2;
@@ -258,6 +268,13 @@ public class GUIController {
     }
   }
 
+  /**
+   * Method responsible for generating a single bot
+   * @param index Index of a bot
+   * @param r Index of a generated image
+   * @param catPhotos Array of bot images
+   * @param cardBack Image displayed on the back of a card
+   */
   private void generateCat(int index, int r, Image[] catPhotos, Image cardBack) {
     botsImageCircles.get(index).setFill(new ImagePattern(catPhotos[r]));
     botsImageCircles.get(index).setVisible(true);
@@ -268,6 +285,9 @@ public class GUIController {
     botsCardCounts.get(index).setVisible(true);
   }
 
+  /**
+   * Method responsible for disabling all bots
+   */
   private void resetCats() {
     for (int i = 0; i < 3; i++) {
       botsImageCircles.get(i).setVisible(false);
@@ -276,6 +296,9 @@ public class GUIController {
     }
   }
 
+  /**
+   * Method responsible for playing a card
+   */
   private void addCard() {
     Button button = new Button();
     button.setPrefWidth(65);
@@ -316,6 +339,11 @@ public class GUIController {
     cardsPane.getChildren().add(button);
   }
 
+  /**
+   * Method responsible from removing a card after it's been played
+   * @param index Index of a card to be removed from player's hand
+   * @throws Exception Throws exception if index of a card is beyond player's cards scope
+   */
   private void removeCard(int index) throws Exception {
     ObservableList<Node> cards = cardsPane.getChildren();
     if (index > cards.size() - 1) throw new Exception("Error: CrazyEightsTest.java 716");
@@ -327,6 +355,11 @@ public class GUIController {
     }
   }
 
+
+  /**
+   * Method responsible for starting the game. Decides the number of cards per player. Assigns cards to each player.
+   * Displays game screen and generates players.
+   */
   @FXML
   void startGameButtonOnClick() {
     String gameMode = gameModeSelector.getValue();
@@ -357,6 +390,11 @@ public class GUIController {
     generateCats();
   }
 
+  /**
+   * Method responsible for processing color chosen after playing an eight.
+   * @param event Click of a color button
+   * @throws Exception Throws and exception when the color is not recognized
+   */
   @FXML
   void colorPickOnClick(ActionEvent event) throws Exception {
     Button button = (Button) event.getSource();
@@ -386,6 +424,9 @@ public class GUIController {
     turnEnd(player);
   }
 
+  /**
+   * Method responsible for drawing a card
+   */
   @FXML
   void drawCardButtonOnClick() {
     Deck deck = game.getDeck();
@@ -402,6 +443,10 @@ public class GUIController {
     turnEnd(player);
   }
 
+  /**
+   * Method responsible for processing the end of a turn, including the win condition.
+   * @param player Player whose turn is being ended
+   */
   private void turnEnd(Player player) {
     showDiscardPileLastCard();
     showPlayerCards();
@@ -427,6 +472,10 @@ public class GUIController {
     }
   }
 
+  /**
+   * Method responsible for processing the end of a game and displaying appropriate message after the conditions have been met.
+   * @param label Label used to display the message.
+   */
   private void gameEnd(Text label) {
     drawCardButton.setMouseTransparent(true);
     cardsPane.setMouseTransparent(true);
@@ -451,12 +500,18 @@ public class GUIController {
     timer.schedule(timerTask, 5000);
   }
 
+  /**
+   * Method responsible for displaying all the cards after every turn.
+   */
   private void displayAllCardsInGame() {
     showDiscardPileLastCard();
     showPlayerCards();
     showBotsCards();
   }
 
+  /**
+   * Method responsible for displaying the most recently played card.
+   */
   private void showDiscardPileLastCard() {
     Deck deck = game.getDeck();
     Card discardPileLastCard = deck.getLastCardFromDiscardPileForGUI();
@@ -482,6 +537,9 @@ public class GUIController {
     discardView.setRotate(random.nextInt(50) - 25);
   }
 
+  /**
+   * Method responsible for displaying player's cards.
+   */
   private void showPlayerCards() {
 
     Player player = game.getPlayer();
@@ -506,6 +564,9 @@ public class GUIController {
     }
   }
 
+  /**
+   * Method responsible for displaying each bots cards
+   */
   private void showBotsCards() {
     List<Player> bots = game.getBotsList();
     List<Text> botCardCounts = Arrays.asList(bot1CardCount, bot2CardCount, bot3CardCount);
@@ -517,6 +578,10 @@ public class GUIController {
     }
   }
 
+  /**
+   * Method responsible for displaying the color picker
+   * @param cardToPlayIndex Index of played card to be temporarily stored.
+   */
   private void showColorPicker(int cardToPlayIndex) {
     cardToPlayIndexHolder = cardToPlayIndex;
     cardsPane.setMouseTransparent(true);
@@ -525,6 +590,10 @@ public class GUIController {
     selectNewColorLabel.setVisible(true);
   }
 
+  /**
+   * Method responsible for writing a message to the log window.
+   * @param message Message to be displayed
+   */
   public void writeToLogWindow(String message) {
     String logWindowText = logWindow.getText();
     logWindow.setText(logWindowText + "\n" + message);
