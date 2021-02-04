@@ -76,8 +76,7 @@ public class BotsAlgorithm {
     byte[] numbersOfSuits = new byte[4];
 
     for (Card botCard : botCards) {
-      if (!Card.compareCrazyEight(botCard))
-        numbersOfSuits[botCard.getSuit()]++;
+      if (!Card.compareCrazyEight(botCard)) numbersOfSuits[botCard.getSuit()]++;
     }
 
     for (int i = 0; i < numbersOfSuits.length; i++)
