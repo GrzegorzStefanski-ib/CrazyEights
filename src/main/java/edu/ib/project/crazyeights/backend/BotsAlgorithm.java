@@ -20,101 +20,81 @@ public class BotsAlgorithm {
    */
   public String makeBotMove(Player bot) {
     List<Card> botCards = bot.getPlayerCards();
-    List<Integer> indexesOfPlayableCards = getIndexesOfPlayableCards(bot);
-    byte mostSuit = getMostSuit(bot);
+    List<Integer> indexesOfPlayableStandardCards = getIndexesOfPlayableStandardCards(bot);
+    List<Integer> indexesOfCrazyEights = getIndexesOfCrazyEights(bot);
+    ArrayList<Suit> suits = getSuits(bot);
     Deck deck = game.getDeck();
 
     List<Integer> botCardsToPlayIndexes = new ArrayList<>();
 
-    if (indexesOfPlayableCards.size() == 0) {
-      bot.drawCard(deck);
-    } else {
+    if (indexesOfPlayableStandardCards.size() == 0) {
+      if (!indexesOfCrazyEights.isEmpty()
+          && botCards.size() - indexesOfCrazyEights.size() <= indexesOfCrazyEights.size()) {
+        Random random = new Random();
+        int cardToPlayIndex = random.nextInt(indexesOfCrazyEights.size());
+        byte suitToPlay = suits.get(suits.size() - 1).getSuit();
 
-      for (int i = 0; i < botCards.size(); i++) {
-        if (botCards.get(i).getSuit() == mostSuit) {
-          for (Integer indexesOfPlayableCard : indexesOfPlayableCards) {
-            if (i == indexesOfPlayableCard) {
-              botCardsToPlayIndexes.add(i);
+        bot.playCrazyEight(deck, cardToPlayIndex, suitToPlay);
+      } else bot.drawCard(deck);
+    } else {
+      int n = 1;
+      while (botCardsToPlayIndexes.isEmpty()) {
+        for (int i = 0; i < botCards.size(); i++) {
+          if (botCards.get(i).getSuit() == suits.get(suits.size() - n).getSuit()) {
+            for (Integer indexesOfPlayableCard : indexesOfPlayableStandardCards) {
+              if (i == indexesOfPlayableCard) {
+                botCardsToPlayIndexes.add(i);
+              }
             }
           }
         }
+
+        n++;
       }
 
       int cardToPlayIndex;
 
-      if (botCardsToPlayIndexes.isEmpty()) cardToPlayIndex = indexesOfPlayableCards.get(0);
-      else {
-        Random random = new Random();
-        int i = random.nextInt(botCardsToPlayIndexes.size());
-        cardToPlayIndex = botCardsToPlayIndexes.get(i);
-      }
+      Random random = new Random();
+      int i = random.nextInt(botCardsToPlayIndexes.size());
+      cardToPlayIndex = botCardsToPlayIndexes.get(i);
 
-      Card cardToPlay = bot.getCard(cardToPlayIndex);
-
-      if (Card.compareCrazyEight(cardToPlay)) {
-        byte[] suits = getSuits(bot);
-        List<Byte> suitsIndexes = new ArrayList<>();
-
-        for (byte i = 0; i < suits.length; i++) {
-          if (suits[i] > 0) suitsIndexes.add(i);
-        }
-
-        Random random = new Random();
-        int suitToPlayIndex = random.nextInt(suitsIndexes.size());
-        byte suitToPlay = suitsIndexes.get(suitToPlayIndex);
-
-        bot.playCrazyEight(deck, cardToPlayIndex, suitToPlay);
-      } else {
-        bot.playCard(deck, cardToPlayIndex);
-      }
+      bot.playCard(deck, cardToPlayIndex);
     }
 
     return bot.getLog();
   }
 
   /**
-   * The method returns the color whose side has the most.
-   *
-   * @param bot Details of the bot.
-   * @return The suit the bot has the most.
-   */
-  private byte getMostSuit(Player bot) {
-    byte[] numbersOfSuits = getSuits(bot);
-
-    byte suit = 0;
-    byte max = 0;
-
-    for (int i = 0; i < numbersOfSuits.length; i++)
-      if (numbersOfSuits[i] > max) {
-        suit = (byte) i;
-        max = numbersOfSuits[i];
-      }
-
-    return suit;
-  }
-
-  /**
    * The method returns all the suits in the bot's hand.
    *
    * @param bot Details of the bot.
-   * @return The suits table of the cards in the bot's hand.
+   * @return The set of Suit objects that match the suits of the cards in the hand of bot.
    */
-  private byte[] getSuits(Player bot) {
+  private ArrayList<Suit> getSuits(Player bot) {
+    ArrayList<Suit> suits = new ArrayList<>();
     List<Card> botCards = bot.getPlayerCards();
     byte[] numbersOfSuits = new byte[4];
 
-    for (Card botCard : botCards) numbersOfSuits[botCard.getSuit()]++;
+    for (Card botCard : botCards) {
+      if (!Card.compareCrazyEight(botCard))
+        numbersOfSuits[botCard.getSuit()]++;
+    }
 
-    return numbersOfSuits;
+    for (int i = 0; i < numbersOfSuits.length; i++)
+      suits.add(new Suit((byte) i, numbersOfSuits[i]));
+
+    Collections.sort(suits);
+
+    return suits;
   }
 
   /**
    * The method that checks what cards the bot can play and saves their indexes.
    *
    * @param bot Details of the bot.
-   * @return The list of indexes of cards that the bot can play.
+   * @return The list of indexes of standard cards that the bot can play.
    */
-  private List<Integer> getIndexesOfPlayableCards(Player bot) {
+  private List<Integer> getIndexesOfPlayableStandardCards(Player bot) {
     List<Card> botCards = bot.getPlayerCards();
     List<Integer> indexesOfPlayableCards = new ArrayList<>();
     Card lastCardOnDiscardPile = game.getDeck().getLastCardFromDiscardPile();
@@ -122,11 +102,32 @@ public class BotsAlgorithm {
     for (int i = 0; i < botCards.size(); i++) {
       Card botCardToPlay = botCards.get(i);
 
-      if (botCardToPlay.compare(lastCardOnDiscardPile) || Card.compareCrazyEight(botCardToPlay)) {
+      if (botCardToPlay.compare(lastCardOnDiscardPile)) {
         indexesOfPlayableCards.add(i);
       }
     }
 
     return indexesOfPlayableCards;
+  }
+
+  /**
+   * The method that saves Crazy Eights indexes from bot's cards.
+   *
+   * @param bot Details of the bot.
+   * @return The list of indexes of Crazy Eights that the bot can play.
+   */
+  private List<Integer> getIndexesOfCrazyEights(Player bot) {
+    List<Card> botCards = bot.getPlayerCards();
+    List<Integer> indexesOfCrazyEights = new ArrayList<>();
+
+    for (int i = 0; i < botCards.size(); i++) {
+      Card botCardToPlay = botCards.get(i);
+
+      if (Card.compareCrazyEight(botCardToPlay)) {
+        indexesOfCrazyEights.add(i);
+      }
+    }
+
+    return indexesOfCrazyEights;
   }
 }

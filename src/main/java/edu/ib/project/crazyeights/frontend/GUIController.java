@@ -141,9 +141,6 @@ public class GUIController {
     gameModeSelector.getItems().add("4 players");
     gameModeSelector.setValue("2 players");
 
-    logWindow.clear();
-    logWindow.setText("Game started. \nYou start first.");
-
     initializeCardImages();
     BackgroundImage myBI =
         new BackgroundImage(
@@ -207,7 +204,6 @@ public class GUIController {
   }
 
   private void generateCats() {
-
     int rOld1 = -1;
     int rOld2;
     Image cardBack = new Image("/cards/5.png");
@@ -319,6 +315,9 @@ public class GUIController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+
+    logWindow.clear();
+    logWindow.setText("Game started. \nYou start first.");
 
     drawCardButton.setMouseTransparent(false);
     cardsPane.setMouseTransparent(false);
@@ -442,7 +441,7 @@ public class GUIController {
             default -> throw new IllegalStateException("Unexpected value: " + deck.getActualSuit());
           };
 
-      actualColorLabel.setText("Current color is " + actualColor);
+      actualColorLabel.setText("Current suit is " + actualColor);
     } else actualColorLabel.setText("");
 
     byte color = discardPileLastCard.getSuit();

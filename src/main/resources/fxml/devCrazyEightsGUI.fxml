@@ -170,7 +170,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fx:id="selectNewColorLabel" fill="RED" layoutX="584.0" layoutY="615.0" stroke="WHITE" strokeType="OUTSIDE" text="Select new color" visible="false" wrappingWidth="130.81237989840292">
+            <Text fx:id="selectNewColorLabel" fill="RED" layoutX="584.0" layoutY="615.0" stroke="WHITE" strokeType="OUTSIDE" text="Select new suit" visible="false" wrappingWidth="130.81237989840292">
                <font>
                   <Font size="18.0" />
                </font>
