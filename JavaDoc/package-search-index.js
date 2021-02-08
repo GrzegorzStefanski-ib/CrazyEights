@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"edu.ib.project.crazyeights.backend"},{"l":"edu.ib.project.crazyeights.frontend"}];updateSearchResults();
