@@ -1,9 +1,7 @@
 //Copyright (C) 2021, Grzegorz Stefański
 package edu.ib.project.crazyeights.backend;
 
-/**
- * Class represent card suit.
- */
+/** Class represent card suit. */
 public class Suit implements Comparable<Suit> {
 
   private final byte suit;
