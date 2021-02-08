@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** The class containing the game engine. It connects {@see Deck} and {@see Palyer} classes. */
+/** The class containing the game engine. It connects {@link Deck} and {@link Player} classes. */
 public class Game {
 
   private final Deck deck;

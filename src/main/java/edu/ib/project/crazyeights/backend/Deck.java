@@ -52,7 +52,7 @@ public class Deck {
 
   /**
    * The method that allows to take the last card from the discard pile. Used to compare cards by
-   * methods from the {@see Card} class. It takes into account the current suit.
+   * methods from the {@link Card} class. It takes into account the current suit.
    *
    * @return Last card from discard pile.
    */
